@@ -3,6 +3,7 @@ import kotlin.system.exitProcess
 class ArgHandler(args:Array<String>) {
     val login:String = args[1]
     val password:String = args[3]
+
     fun ChekArg(args: Array<String>):Int
     {
         if(args.isEmpty())
