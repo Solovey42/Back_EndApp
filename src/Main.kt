@@ -35,3 +35,11 @@ fun ValidateLogin(args: Array<String>){
     val regex = Regex(pattern = "[a-z]{1,10}")
     val matched = regex.containsMatchIn(input = "vasya")
 }
+fun CheckLogin(args: Array<String>)
+{
+    if(Users.contains(Users.find { it.login == args[1] }))
+        exitProcess(0)
+    else
+        exitProcess(3)
+
+}
