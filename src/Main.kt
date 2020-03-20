@@ -41,5 +41,12 @@ fun CheckLogin(args: Array<String>)
         exitProcess(0)
     else
         exitProcess(3)
+}
+fun CheckLoinPass(args: Array<String>)
+{
 
+    if(Users[Users.indexOf(Users.find { it.login == args[3] })].pass == args [3])
+        exitProcess(0)
+    else
+        exitProcess(4)
 }
