@@ -31,3 +31,7 @@ fun NeedAuth(args: Array<String>) {
         exitProcess(0)
 
 }
+fun ValidateLogin(args: Array<String>){
+    val regex = Regex(pattern = "[a-z]{1,10}")
+    val matched = regex.containsMatchIn(input = "vasya")
+}
