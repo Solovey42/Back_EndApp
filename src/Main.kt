@@ -26,3 +26,8 @@ fun ChekHelp(args: Array<String>)
     else
         exitProcess(0)
 }
+fun NeedAuth(args: Array<String>) {
+    if (args[0] == "-login" && args[2] == "-pass")
+        exitProcess(0)
+
+}
