@@ -3,6 +3,7 @@ import kotlin.system.exitProcess
 fun main(args: Array<String>) {
     val argHandler = ArgHandler(args)
 
+
 }
 
 fun ValidateLogin(argHandler: ArgHandler): Boolean {
@@ -11,19 +12,13 @@ fun ValidateLogin(argHandler: ArgHandler): Boolean {
 
 }
 
-fun CheckLogin(argHandler: ArgHandler) {
-    if (Users.contains(Users.find { it.login == argHandler.login }))
-        exitProcess(0)
-    else
-        exitProcess(3)
+fun CheckLogin(argHandler: ArgHandler):Boolean {
+    return Users.contains(Users.find { it.login == argHandler.login })
 }
 
-fun CheckLoinPass(argHandler: ArgHandler) {
+fun CheckLoinPass(argHandler: ArgHandler):Boolean {
 
-    if (Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password)
-        exitProcess(0)
-    else
-        exitProcess(4)
+    return Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password
 }
 
 

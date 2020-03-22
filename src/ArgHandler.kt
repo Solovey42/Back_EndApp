@@ -11,7 +11,7 @@ class ArgHandler(args: Array<String>) {
     val res: String = args[7]
     val ds:String = args[9]
     val de:String = args[11]
-    val vol:String = args[13]
+   /// val vol:String = args[13]
 
 
     fun ChekArg(): Int {
@@ -68,9 +68,9 @@ class ArgHandler(args: Array<String>) {
         val timeEnd =LocalDate.parse(de)
         return timeStart<timeEnd
     }
-    fun  CheckVol():Boolean{
+   /* fun  CheckVol():Boolean{
         return vol.toInt()>0
-    }
+    }*/
 
 
 }

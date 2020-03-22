@@ -1,5 +1,5 @@
 enum class ExitCodes(val code: Int) {
-    SuccessCode(0),
+    Success(0),
     HelpCode(1),
     InvalidLoginFormat(2),
     UnknownLogin(3),
