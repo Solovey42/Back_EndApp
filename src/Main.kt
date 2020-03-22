@@ -28,14 +28,21 @@ fun CheckLoinPass(argHandler: ArgHandler) {
         exitProcess(4)
 }
 
-fun CheckResRole(argHandler: ArgHandler):Boolean {
+
+fun CheckResRole(argHandler: ArgHandler): Boolean {
     if (argHandler.role != Roles.EXECUTE.name && argHandler.role != Roles.READ.name && argHandler.role != Roles.WRITE.name)
         exitProcess(5)
-    else if (Resources[Resources.indexOf(Resources.find { it.user.login == argHandler.login && it.res == argHandler.res })].role.name == argHandler.role)
-        exitProcess(0)
-    else
-        exitProcess(6)
+    val resources = Resources.find { it.user.login == argHandler.login }
 
+    val nodes = argHandler.res.split(".")
+    for (index in nodes.indices) {
+        val currentNode = nodes.subList(0, index + 1).joinToString(".")
+        if (Resources.any { it.res == currentNode && it.role.name == argHandler.role })
+            exitProcess(0)
+    }
+
+    exitProcess(6)
 }
+
 
 
