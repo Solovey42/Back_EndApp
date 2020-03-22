@@ -1,3 +1,4 @@
+import java.time.LocalDate
 import kotlin.system.exitProcess
 
 class Accounting(argHandler: ArgHandler) {
@@ -15,5 +16,9 @@ class Accounting(argHandler: ArgHandler) {
             else exitProcess(ExitCodes.IncorrectActivity.code)
 
 
+    }
+
+    fun AddSession(argHandler: ArgHandler) {
+        Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
     }
 }

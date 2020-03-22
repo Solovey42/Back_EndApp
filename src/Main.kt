@@ -16,9 +16,7 @@ fun main(args: Array<String>) {
 
 
 
-fun AddSession(argHandler: ArgHandler) {
-    Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
-}
+
 
 
 
