@@ -7,11 +7,6 @@ fun main(args: Array<String>) {
     argHandler.ChekHelp()
     val auth = Authentication(argHandler)
     val authorization = Authorization(argHandler)
-    val accounting = Accounting(argHandler)
-
-
-
-
 
 
 }
@@ -41,14 +36,18 @@ fun CheckResRole(argHandler: ArgHandler): Boolean {
     for (index in nodes.indices) {
         val currentNode = nodes.subList(0, index + 1).joinToString(".")
         if (Resources.any { it.res == currentNode && it.role.name == argHandler.role })
-            exitProcess(0)
+            if (!argHandler.NeedAcc())
+                exitProcess(0)
+            else
+                Accounting(argHandler)
+
     }
 
     exitProcess(6)
 }
 
 fun AddSession(argHandler: ArgHandler) {
-   Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
+    Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
 }
 
 
