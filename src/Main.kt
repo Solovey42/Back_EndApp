@@ -2,7 +2,10 @@ import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     val argHandler = ArgHandler(args)
-    CheckResRole(argHandler)
+    if(argHandler.CheckDate()==true)
+        println("TRUE")
+    else
+        print("FALSE")
 
 
 }

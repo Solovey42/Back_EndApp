@@ -1,4 +1,7 @@
 import kotlin.system.exitProcess
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 
 class ArgHandler(args: Array<String>) {
     private val arr: Array<String> = args
@@ -58,6 +61,11 @@ class ArgHandler(args: Array<String>) {
             arr[9] == "-ds" -> true
             else -> false
         }
+    }
+    fun CheckDate():Boolean{
+        val timeStart = LocalDate.parse(ds)
+        val timeEnd =LocalDate.parse(de)
+        return timeStart<timeEnd
     }
 
 
