@@ -6,6 +6,8 @@ fun main(args: Array<String>) {
     argHandler.ChekArg()
     argHandler.ChekHelp()
     val auth = Authentication(argHandler)
+    val authorization = Authorization(argHandler)
+    val accounting = Accounting(argHandler)
 
 
 
