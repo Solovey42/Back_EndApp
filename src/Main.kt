@@ -3,33 +3,36 @@ import kotlin.system.exitProcess
 fun main(args:Array<String>)
 {
     val argHandler = ArgHandler(args)
+    argHandler.ChekHelp(args)
+    argHandler.ChekArg(args)
+    argHandler.NeedAuth(args)
+    ValidateLogin(argHandler)
+    CheckLogin(argHandler)
+    CheckLoinPass(argHandler)
 
+}
+fun ValidateLogin(argHandler:ArgHandler){
 
-    fun ValidateLogin(){
+    val regex = Regex(pattern = "[a-z]{1,10}")
+    val matched = regex.containsMatchIn(input = argHandler.login)
+    if(matched==true)
+        exitProcess(0)
+    else
+        exitProcess(2)
+}
+fun CheckLogin(argHandler:ArgHandler)
+{
+    if(Users.contains(Users.find { it.login == argHandler.login }))
+        exitProcess(0)
+    else
+        exitProcess(3)
+}
+fun CheckLoinPass(argHandler:ArgHandler)
+{
 
-        val regex = Regex(pattern = "[a-z]{1,10}")
-        val matched = regex.containsMatchIn(input = argHandler.login)
-        if(matched==true)
-            exitProcess(0)
-        else
-            exitProcess(2)
-    }
-    fun CheckLogin(args: Array<String>)
-    {
-        if(Users.contains(Users.find { it.login == argHandler.login }))
-            exitProcess(0)
-        else
-            exitProcess(3)
-    }
-    fun CheckLoinPass(args: Array<String>)
-    {
-
-        if(Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password)
-            exitProcess(0)
-        else
-            exitProcess(4)
-    }
-
-
+    if(Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password)
+        exitProcess(0)
+    else
+        exitProcess(4)
 }
 
