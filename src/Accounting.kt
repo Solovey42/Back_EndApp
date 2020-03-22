@@ -8,11 +8,12 @@ class Accounting(argHandler: ArgHandler) {
     private fun start(argHandler: ArgHandler) {
         if (argHandler.NeedAcc())
             if (argHandler.CheckDate())
-                if (argHandler.CheckVol())
+                if (argHandler.CheckVol()) {
                     AddSession(argHandler)
-                else exitProcess(ExitCodes.IncorrectActivity.code)
+                    exitProcess(ExitCodes.Success.code)
+                } else exitProcess(ExitCodes.IncorrectActivity.code)
             else exitProcess(ExitCodes.IncorrectActivity.code)
-        else exitProcess(ExitCodes.Success.code)
+
 
     }
 }
