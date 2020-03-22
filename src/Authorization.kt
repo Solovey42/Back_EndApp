@@ -15,7 +15,6 @@ class Authorization(argHandler: ArgHandler) {
     fun CheckResRole(argHandler: ArgHandler): Boolean {
         if (argHandler.role != Roles.EXECUTE.name && argHandler.role != Roles.READ.name && argHandler.role != Roles.WRITE.name)
             exitProcess(5)
-        val resources = Resources.find { it.user.login == argHandler.login }
 
         val nodes = argHandler.res.split(".")
         for (index in nodes.indices) {
