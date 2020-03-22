@@ -4,8 +4,9 @@ class ArgHandler(args: Array<String>) {
     private val arr: Array<String> = args
     val login: String = args[1]
     val password: String = args[3]
-    val res: String = args [5]
-    val role: String = args [7]
+    val role: String = args [5]
+    val res: String = args [7]
+
 
 
     fun ChekArg(): Int {
