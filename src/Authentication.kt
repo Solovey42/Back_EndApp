@@ -22,5 +22,20 @@ class Authentication(argHandler: ArgHandler) {
             exitProcess(ExitCodes.Success.code)
     }
 
+    fun ValidateLogin(argHandler: ArgHandler): Boolean {
+
+        return argHandler.login.matches(Regex("[a-z]{1,10}"))
+
+    }
+
+    fun CheckLogin(argHandler: ArgHandler): Boolean {
+        return Users.contains(Users.find { it.login == argHandler.login })
+    }
+
+    fun CheckLoinPass(argHandler: ArgHandler): Boolean {
+
+        return Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password
+    }
+
 
 }
