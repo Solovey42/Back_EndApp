@@ -3,8 +3,8 @@ import kotlin.system.exitProcess
 fun main(args:Array<String>)
 {
     val argHandler = ArgHandler(args)
-    argHandler.NeedAuth(args)
-    argHandler.NeedAuthorization(args)
+    argHandler.CheckResName()
+
 
 
 }
