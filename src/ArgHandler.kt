@@ -42,9 +42,17 @@ class ArgHandler(args: Array<String>) {
             arr[4] == "-res" -> true
             else -> false
         }
-
-
     }
+    fun CheckResName()
+    {
+        val regex = Regex(pattern = "[A-Z]+(1.[A-Z]+)+")
+        val matched = regex.containsMatchIn(input = res)
+        if(matched==true)
+            exitProcess(0)
+        else
+            exitProcess(1)
+    }
+
 
 
 }
