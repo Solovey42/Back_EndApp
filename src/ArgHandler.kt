@@ -84,13 +84,28 @@ class ArgHandler(args: Array<String>) {
     }
 
     fun CheckDate(): Boolean {
-        val timeStart = LocalDate.parse(ds)
-        val timeEnd = LocalDate.parse(de)
-        return timeStart < timeEnd
+        try {
+            val timeStart = LocalDate.parse(ds)
+            val timeEnd = LocalDate.parse(de)
+            return timeStart < timeEnd
+
+        }
+        catch (e: Exception)
+        {
+            return false
+        }
+
+
     }
 
     fun CheckVol(): Boolean {
-        return vol.toInt() > 0
+        return try{
+            vol.toInt() > 0
+        }
+        catch (e: Exception)
+        {
+            false
+        }
     }
 
 
