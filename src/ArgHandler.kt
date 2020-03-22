@@ -47,7 +47,7 @@ class ArgHandler(args: Array<String>) {
             "        -ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - занесение данных об использовании ресурса(только после авторизации"
 
     fun ChekHelp() {
-        if (arr[0] == "-h") {
+        if (arr[0] == "h") {
             PrintHelp()
             exitProcess(ExitCodes.HelpCode.code)
         }
@@ -57,7 +57,7 @@ class ArgHandler(args: Array<String>) {
 
     fun NeedAuth(): Boolean {
         return when {
-            arr[0] == "-login" && arr[2] == "-pass" -> true
+            login != "" && password != "" -> true
             else -> false
         }
 
@@ -66,7 +66,7 @@ class ArgHandler(args: Array<String>) {
 
     fun NeedAuthorization(): Boolean {
         return when {
-            arr[4] == "-res" -> true
+            res != "" -> true
             else -> false
         }
     }
@@ -78,7 +78,7 @@ class ArgHandler(args: Array<String>) {
 
     fun NeedAcc(): Boolean {
         return when {
-            arr[9] == "-ds" -> true
+            ds != "" -> true
             else -> false
         }
     }
@@ -92,6 +92,7 @@ class ArgHandler(args: Array<String>) {
     fun CheckVol(): Boolean {
         return vol.toInt() > 0
     }
+
 
 
 }
