@@ -1,7 +1,15 @@
+import java.time.LocalDate
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     val argHandler = ArgHandler(args)
+    argHandler.ChekArg()
+    argHandler.ChekHelp()
+    val auth = Authentication(argHandler)
+
+
+
+
 
 
 }
@@ -12,11 +20,11 @@ fun ValidateLogin(argHandler: ArgHandler): Boolean {
 
 }
 
-fun CheckLogin(argHandler: ArgHandler):Boolean {
+fun CheckLogin(argHandler: ArgHandler): Boolean {
     return Users.contains(Users.find { it.login == argHandler.login })
 }
 
-fun CheckLoinPass(argHandler: ArgHandler):Boolean {
+fun CheckLoinPass(argHandler: ArgHandler): Boolean {
 
     return Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password
 }
@@ -38,7 +46,7 @@ fun CheckResRole(argHandler: ArgHandler): Boolean {
 }
 
 fun AddSession(argHandler: ArgHandler) {
-   /// Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
+   Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
 }
 
 
