@@ -47,7 +47,7 @@ echo Test 3.6
 app.jar -login vasya -pass 1234 -role DELETE -res A
 echo %ErrorLevel%	
 echo Test 3.7 
-app.jar -login vasya -pass 123 -role WRITE -res A.B.C	
+app.jar -login vasya -pass 123 -role WRITE -res A.B.C
 echo %ErrorLevel%
 echo Test 3.8 
 app.jar -login admin -pass admin -role READ	
