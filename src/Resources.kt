@@ -1,1 +1,0 @@
-data class Resources(val res: String, val role: Roles, val user: User)
