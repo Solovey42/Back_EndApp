@@ -1,8 +1,9 @@
 import kotlin.system.exitProcess
+import java.time.LocalDate
 
 fun main(args: Array<String>) {
     val argHandler = ArgHandler(args)
-    if(argHandler.CheckDate()==true)
+    if (argHandler.CheckDate() == true)
         println("TRUE")
     else
         print("FALSE")
@@ -45,6 +46,10 @@ fun CheckResRole(argHandler: ArgHandler): Boolean {
     }
 
     exitProcess(6)
+}
+
+fun AddSession(argHandler: ArgHandler) {
+    Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
 }
 
 
