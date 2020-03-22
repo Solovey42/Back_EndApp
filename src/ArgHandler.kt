@@ -1,17 +1,19 @@
 import kotlin.system.exitProcess
 
 class ArgHandler(args: Array<String>) {
+    private val arr:Array<String> = args
     val login: String = args[1]
     val password: String = args[3]
 
-    fun ChekArg(args: Array<String>): Int {
-        if (args.isEmpty())
+
+    fun ChekArg(): Int {
+        if (arr.isEmpty())
             exitProcess(0)
         else
             exitProcess(1)
     }
 
-    fun PrintHelp() {
+    private fun PrintHelp() {
         print(Help)
     }
 
@@ -20,24 +22,24 @@ class ArgHandler(args: Array<String>) {
             "        -login <str> -pass <str> -res <str> -role <str> - авторизация к введенному ресурсу\n" +
             "        -ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - занесение данных об использовании ресурса(только после авторизации"
 
-    fun ChekHelp(args: Array<String>) {
-        if (args[0] == "-h")
+    fun ChekHelp() {
+        if (arr[0] == "-h")
             PrintHelp()
         else
             exitProcess(0)
     }
 
-    fun NeedAuth(args: Array<String>): Boolean {
+    fun NeedAuth(): Boolean {
         return when {
-            args[0] == "-login" && args[2] == "-pass" -> true
+            arr[0] == "-login" && arr[2] == "-pass" -> true
             else -> false
         }
 
     }
 
-    fun NeedAuthorization(args: Array<String>): Boolean {
+    fun NeedAuthorization(): Boolean {
         return when {
-            args[4] == "-res" -> true
+            arr[4] == "-res" -> true
             else -> false
         }
 
