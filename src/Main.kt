@@ -8,14 +8,10 @@ fun main(args:Array<String>)
 
 
 }
-fun ValidateLogin(argHandler:ArgHandler){
+fun ValidateLogin(argHandler:ArgHandler):Boolean{
 
     val regex = Regex(pattern = "[a-z]{1,10}")
-    val matched = regex.containsMatchIn(input = argHandler.login)
-    if(matched==true)
-        exitProcess(0)
-    else
-        exitProcess(2)
+    return regex.containsMatchIn(input = argHandler.login)
 }
 fun CheckLogin(argHandler:ArgHandler)
 {
