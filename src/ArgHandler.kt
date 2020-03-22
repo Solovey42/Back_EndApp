@@ -1,7 +1,7 @@
 import kotlin.system.exitProcess
 
 class ArgHandler(args: Array<String>) {
-    private val arr:Array<String> = args
+    private val arr: Array<String> = args
     val login: String = args[1]
     val password: String = args[3]
 
@@ -43,16 +43,15 @@ class ArgHandler(args: Array<String>) {
             else -> false
         }
     }
-    fun CheckResName()
-    {
+
+    fun CheckResName() {
         val regex = Regex(pattern = "[A-Z]+(1.[A-Z]+)+")
         val matched = regex.containsMatchIn(input = res)
-        if(matched==true)
+        if (matched == true)
             exitProcess(0)
         else
             exitProcess(1)
     }
-
 
 
 }
