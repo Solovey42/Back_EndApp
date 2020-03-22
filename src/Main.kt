@@ -3,12 +3,9 @@ import kotlin.system.exitProcess
 fun main(args:Array<String>)
 {
     val argHandler = ArgHandler(args)
-    argHandler.ChekHelp(args)
-    argHandler.ChekArg(args)
     argHandler.NeedAuth(args)
-    ValidateLogin(argHandler)
-    CheckLogin(argHandler)
-    CheckLoinPass(argHandler)
+    argHandler.NeedAuthorization(args)
+
 
 }
 fun ValidateLogin(argHandler:ArgHandler){
