@@ -6,6 +6,8 @@ class ArgHandler(args: Array<String>) {
     val password: String = args[3]
     val role: String = args[5]
     val res: String = args[7]
+    val ds:String = args[9]
+    val de:String = args[11]
 
 
     fun ChekArg(): Int {
@@ -53,7 +55,7 @@ class ArgHandler(args: Array<String>) {
 
     fun NeedAcc(): Boolean {
         return when {
-            arr[6] == "-ds" -> true
+            arr[9] == "-ds" -> true
             else -> false
         }
     }
