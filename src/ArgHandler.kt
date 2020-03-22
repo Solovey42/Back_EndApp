@@ -5,23 +5,39 @@ import java.time.format.DateTimeFormatter
 
 class ArgHandler(args: Array<String>) {
     private val arr: Array<String> = args
-    val login: String = args[1]
-    val password: String = args[3]
-    val role: String = args[5]
-    val res: String = args[7]
-    val ds:String = args[9]
-    val de:String = args[11]
-   /// val vol:String = args[13]
+    var login: String = ""
+    var password: String = ""
+    var role: String = ""
+    var res: String = ""
+    var ds: String = ""
+    var de: String = ""
+    var vol: String = ""
 
+    init {
+        for (arg in args) {
 
-    fun ChekArg(): Int {
-        if (arr.isEmpty())
-            exitProcess(0)
-        else
-            exitProcess(1)
+            when (arg) {
+                "-login" -> login = args[args.indexOf(arg) + 1]
+                "-pass" -> password = args[args.indexOf(arg) + 1]
+                "-role" -> role = args[args.indexOf(arg) + 1]
+                "-res" -> res = args[args.indexOf(arg) + 1]
+                "-ds" -> ds = args[args.indexOf(arg) + 1]
+                "-de" -> de = args[args.indexOf(arg) + 1]
+                "-vol" -> vol = args[args.indexOf(arg) + 1]
+            }
+        }
     }
 
-    private fun PrintHelp() {
+    fun ChekArg() {
+        if (arr.isEmpty()) {
+            PrintHelp()
+            exitProcess(ExitCodes.HelpCode.code)
+        }
+
+
+    }
+
+    fun PrintHelp() {
         print(Help)
     }
 
@@ -31,10 +47,12 @@ class ArgHandler(args: Array<String>) {
             "        -ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - занесение данных об использовании ресурса(только после авторизации"
 
     fun ChekHelp() {
-        if (arr[0] == "-h")
+        if (arr[0] == "-h") {
             PrintHelp()
-        else
-            exitProcess(0)
+            exitProcess(ExitCodes.HelpCode.code)
+        }
+
+
     }
 
     fun NeedAuth(): Boolean {
@@ -42,6 +60,7 @@ class ArgHandler(args: Array<String>) {
             arr[0] == "-login" && arr[2] == "-pass" -> true
             else -> false
         }
+
 
     }
 
@@ -63,14 +82,16 @@ class ArgHandler(args: Array<String>) {
             else -> false
         }
     }
-    fun CheckDate():Boolean{
+
+    fun CheckDate(): Boolean {
         val timeStart = LocalDate.parse(ds)
-        val timeEnd =LocalDate.parse(de)
-        return timeStart<timeEnd
+        val timeEnd = LocalDate.parse(de)
+        return timeStart < timeEnd
     }
-   /* fun  CheckVol():Boolean{
-        return vol.toInt()>0
-    }*/
+
+    fun CheckVol(): Boolean {
+        return vol.toInt() > 0
+    }
 
 
 }
