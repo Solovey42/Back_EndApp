@@ -33,5 +33,14 @@ class ArgHandler(args: Array<String>) {
 
     }
 
+    fun NeedAuthorization(args: Array<String>): Boolean {
+        return when {
+            args[4] == "-res" -> true
+            else -> false
+        }
+
+
+    }
+
 
 }
