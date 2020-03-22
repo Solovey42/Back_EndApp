@@ -4,9 +4,8 @@ class ArgHandler(args: Array<String>) {
     private val arr: Array<String> = args
     val login: String = args[1]
     val password: String = args[3]
-    val role: String = args [5]
-    val res: String = args [7]
-
+    val role: String = args[5]
+    val res: String = args[7]
 
 
     fun ChekArg(): Int {
@@ -46,10 +45,17 @@ class ArgHandler(args: Array<String>) {
             else -> false
         }
     }
-    fun CheckResName():Boolean
-    {
+
+    fun CheckResName(): Boolean {
         val regex = Regex(pattern = "[A-Z]+(.[A-Z]+)+")
         return regex.containsMatchIn(input = res)
+    }
+
+    fun NeedAcc(): Boolean {
+        return when {
+            arr[6] == "-ds" -> true
+            else -> false
+        }
     }
 
 
