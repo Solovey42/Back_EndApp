@@ -4,7 +4,6 @@ import ArgHandler
 import enums.ExitCodes
 import Resources
 import enums.Roles
-import models.Resource
 import models.User
 import kotlin.system.exitProcess
 
@@ -26,7 +25,7 @@ class Authorization(argHandler: ArgHandler, User: User) {
     }
 
     private fun checkResRole() {
-        if (arg.role != Roles.EXECUTE.name && arg.role != Roles.READ.name && arg.role != Roles.WRITE.name)
+        if (Roles.check().contains(arg.role))
             exitProcess(ExitCodes.UnknownRole.code)
         if (!arg.CheckResName())
             exitProcess((ExitCodes.UnknownRole.code))
