@@ -56,13 +56,9 @@ class ArgHandler(args: Array<String>) {
 
     }
 
-    fun NeedAuth(): Boolean {
-        return when {
-            login != "" && password != "" -> true
-            else -> false
-        }
-
-
+    fun NeedAuth(): Boolean = when {
+        login != "" && password != "" -> true
+        else -> false
     }
 
     fun ValidateLogin(): Boolean {
@@ -71,11 +67,9 @@ class ArgHandler(args: Array<String>) {
 
     }
 
-    fun NeedAuthorization(): Boolean {
-        return when {
-            res != "" -> true
-            else -> false
-        }
+    fun NeedAuthorization(): Boolean = when {
+        res != "" -> true
+        else -> false
     }
 
     fun CheckResName(): Boolean {
@@ -84,11 +78,9 @@ class ArgHandler(args: Array<String>) {
     }
 
 
-    fun NeedAcc(): Boolean {
-        return when {
-            ds != "" -> true
-            else -> false
-        }
+    fun NeedAcc(): Boolean = when {
+        ds != "" -> true
+        else -> false
     }
 
     fun CheckDate(): Boolean {
