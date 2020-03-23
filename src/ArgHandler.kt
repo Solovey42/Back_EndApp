@@ -28,6 +28,7 @@ class ArgHandler(args: Array<String>) {
         }
     }
 
+
     fun ChekArg() {
         if (arr.isEmpty()) {
             PrintHelp()
