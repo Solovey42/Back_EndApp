@@ -47,7 +47,7 @@ class ArgHandler(args: Array<String>) {
             "        -ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - занесение данных об использовании ресурса(только после авторизации"
 
     fun ChekHelp() {
-        if (arr[0] == "h") {
+        if (arr[0] == "-h") {
             PrintHelp()
             exitProcess(ExitCodes.HelpCode.code)
         }
