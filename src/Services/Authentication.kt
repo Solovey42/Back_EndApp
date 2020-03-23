@@ -1,3 +1,8 @@
+package Services
+
+import ArgHandler
+import Enums.ExitCodes
+import Users
 import kotlin.system.exitProcess
 
 class Authentication(argHandler: ArgHandler) {

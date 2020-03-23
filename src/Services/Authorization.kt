@@ -1,3 +1,9 @@
+package Services
+
+import ArgHandler
+import Enums.ExitCodes
+import Resources
+import Enums.Roles
 import kotlin.system.exitProcess
 
 class Authorization(argHandler: ArgHandler) {

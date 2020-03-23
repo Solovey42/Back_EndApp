@@ -1,3 +1,5 @@
+package Enums
+
 enum class ExitCodes(val code: Int) {
     Success(0),
     HelpCode(1),
