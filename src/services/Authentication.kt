@@ -14,25 +14,26 @@ class Authentication(argHandler: ArgHandler) {
     init {
         if (argHandler.NeedAuth())
             start(argHandler)
+        else
+            exitProcess(ExitCodes.Success.code)
 
     }
 
 
     private fun start(argHandler: ArgHandler) {
 
-        if (argHandler.NeedAuth())
-            if (argHandler.ValidateLogin())
-                if (user != null)
-                    if (checkLoinPass(argHandler))
-                        Authorization(argHandler)
-                    else
-                        exitProcess(ExitCodes.InvalidPassword.code)
+
+        if (argHandler.ValidateLogin())
+            if (user != null)
+                if (checkLoinPass(argHandler))
+                    Authorization(argHandler)
                 else
-                    exitProcess(ExitCodes.UnknownLogin.code)
+                    exitProcess(ExitCodes.InvalidPassword.code)
             else
-                exitProcess(ExitCodes.InvalidLoginFormat.code)
+                exitProcess(ExitCodes.UnknownLogin.code)
         else
-            exitProcess(ExitCodes.Success.code)
+            exitProcess(ExitCodes.InvalidLoginFormat.code)
+
     }
 
 
