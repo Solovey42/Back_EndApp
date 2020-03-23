@@ -1,6 +1,5 @@
 import kotlin.system.exitProcess
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 
 class ArgHandler(args: Array<String>) {
@@ -64,6 +63,12 @@ class ArgHandler(args: Array<String>) {
 
     }
 
+    fun ValidateLogin(): Boolean {
+
+        return login.matches(Regex("[a-z]{1,10}"))
+
+    }
+
     fun NeedAuthorization(): Boolean {
         return when {
             res != "" -> true
@@ -72,9 +77,10 @@ class ArgHandler(args: Array<String>) {
     }
 
     fun CheckResName(): Boolean {
-        val regex = Regex(pattern = "[A-Z]+(.[A-Z]+)+")
-        return regex.containsMatchIn(input = res)
+
+        return res.matches(Regex("[A-Z]+(|.[A-Z]+)+"))
     }
+
 
     fun NeedAcc(): Boolean {
         return when {
@@ -84,30 +90,25 @@ class ArgHandler(args: Array<String>) {
     }
 
     fun CheckDate(): Boolean {
-        try {
+        return try {
             val timeStart = LocalDate.parse(ds)
             val timeEnd = LocalDate.parse(de)
-            return timeStart < timeEnd
+            timeStart < timeEnd
 
-        }
-        catch (e: Exception)
-        {
-            return false
+        } catch (e: Exception) {
+            false
         }
 
 
     }
 
     fun CheckVol(): Boolean {
-        return try{
+        return try {
             vol.toInt() > 0
-        }
-        catch (e: Exception)
-        {
+        } catch (e: Exception) {
             false
         }
     }
-
 
 
 }

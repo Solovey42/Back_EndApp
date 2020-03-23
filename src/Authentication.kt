@@ -9,7 +9,7 @@ class Authentication(argHandler: ArgHandler) {
 
     private fun start(argHandler: ArgHandler) {
         if (argHandler.NeedAuth())
-            if (ValidateLogin(argHandler))
+            if (argHandler.ValidateLogin())
                 if (CheckLogin(argHandler))
                     if (CheckLoinPass(argHandler))
                     else
@@ -22,11 +22,6 @@ class Authentication(argHandler: ArgHandler) {
             exitProcess(ExitCodes.Success.code)
     }
 
-    fun ValidateLogin(argHandler: ArgHandler): Boolean {
-
-        return argHandler.login.matches(Regex("[a-z]{1,10}"))
-
-    }
 
     fun CheckLogin(argHandler: ArgHandler): Boolean {
         return Users.contains(Users.find { it.login == argHandler.login })
