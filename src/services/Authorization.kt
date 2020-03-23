@@ -6,7 +6,6 @@ import enums.Roles
 import models.Resource
 import models.Session
 import models.User
-import kotlin.system.exitProcess
 
 class Authorization(argHandler: ArgHandler, User: User, Resources: List<Resource>, Sessions: List<Session>) {
 
@@ -15,36 +14,33 @@ class Authorization(argHandler: ArgHandler, User: User, Resources: List<Resource
     private val resources = Resources
     private val sessions = Sessions
 
-
-    init {
-        if (argHandler.NeedAuthorization())
-            start()
-    }
-
-    private fun start() {
-        if (arg.NeedAuthorization())
+    fun start():Int {
+        return if (arg.NeedAuthorization())
             checkResRole()
+        else
+            0
+
 
     }
 
-    private fun checkResRole() {
+    private fun checkResRole():Int {
         if (!Roles.check().contains(arg.role))
-            exitProcess(ExitCodes.UnknownRole.code)
+            return ExitCodes.UnknownRole.code
         if (!arg.CheckResName())
-            exitProcess((ExitCodes.UnknownRole.code))
+            return ExitCodes.UnknownRole.code
 
         val nodes = arg.res.split(".")
         for (index in nodes.indices) {
             val currentNode = nodes.subList(0, index + 1).joinToString(".")
             if (resources.any { it.res == currentNode && it.role.name == arg.role && it.user == user })
-                if (!arg.NeedAcc())
-                    exitProcess(ExitCodes.Success.code)
+                return if (!arg.NeedAcc())
+                    ExitCodes.Success.code
                 else
-                    Accounting(arg, user, sessions, resources)
+                    Accounting(arg, user, sessions, resources).start()
 
         }
 
-        exitProcess(ExitCodes.NoAccess.code)
+        return ExitCodes.NoAccess.code
     }
 
 

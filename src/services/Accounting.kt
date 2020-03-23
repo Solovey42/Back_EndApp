@@ -6,7 +6,6 @@ import models.Session
 import models.Resource
 import models.User
 import java.time.LocalDate
-import kotlin.system.exitProcess
 
 class Accounting(argHandler: ArgHandler, User: User, Sessions: List<Session>, Resources: List<Resource>) {
 
@@ -16,18 +15,17 @@ class Accounting(argHandler: ArgHandler, User: User, Sessions: List<Session>, Re
     private var sessions = Sessions.toMutableList()
     private val res = getRes()
 
-    init {
-        start()
-    }
 
-    private fun start() {
-        if (arg.NeedAcc())
+
+    fun start():Int {
+        return if (arg.NeedAcc())
             if (arg.CheckDate())
                 if (arg.CheckVol()) {
                     addSession()
-                    exitProcess(ExitCodes.Success.code)
-                } else exitProcess(ExitCodes.IncorrectActivity.code)
-            else exitProcess(ExitCodes.IncorrectActivity.code)
+                    ExitCodes.Success.code
+                } else ExitCodes.IncorrectActivity.code
+            else ExitCodes.IncorrectActivity.code
+        else 0
     }
 
     private fun addSession() {

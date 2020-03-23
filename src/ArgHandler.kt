@@ -1,5 +1,4 @@
-import enums.ExitCodes
-import kotlin.system.exitProcess
+
 import java.time.LocalDate
 
 
@@ -15,7 +14,6 @@ class ArgHandler(args: Array<String>) {
 
     init {
         for (arg in args) {
-
             when (arg) {
                 "-login" -> login = args[args.indexOf(arg) + 1]
                 "-pass" -> password = args[args.indexOf(arg) + 1]
@@ -29,11 +27,12 @@ class ArgHandler(args: Array<String>) {
     }
 
 
-    fun ChekArg() {
+    fun ChekArg():Boolean {
         if (arr.isEmpty()) {
             PrintHelp()
-            exitProcess(ExitCodes.HelpCode.code)
+            return  true
         }
+        return false
 
 
     }
@@ -47,13 +46,12 @@ class ArgHandler(args: Array<String>) {
             "        -login <str> -pass <str> -res <str> -role <str> - авторизация к введенному ресурсу\n" +
             "        -ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - занесение данных об использовании ресурса(только после авторизации"
 
-    fun ChekHelp() {
+    fun ChekHelp():Boolean {
         if (arr[0] == "-h") {
             PrintHelp()
-            exitProcess(ExitCodes.HelpCode.code)
+            return true
         }
-
-
+        return false
     }
 
     fun NeedAuth(): Boolean = when {

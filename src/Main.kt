@@ -9,13 +9,9 @@ import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
 
-
     val argHandler = ArgHandler(args)
-    argHandler.ChekArg()
-    argHandler.ChekHelp()
-    Authentication(argHandler,Users,Resources,Sessions)
-
-
+    val returnCode = Authentication(argHandler,Users,Resources,Sessions).start()
+    exitProcess(returnCode)
 
 }
 

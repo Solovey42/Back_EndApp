@@ -6,37 +6,36 @@ import models.Resource
 import models.Session
 import models.User
 import java.security.MessageDigest
-import kotlin.system.exitProcess
 
-class Authentication(argHandler: ArgHandler,Users:List<User>,Resources:List<Resource>,Sessions:List<Session>) {
+class Authentication(argHandler: ArgHandler, Users: List<User>, Resources: List<Resource>, Sessions: List<Session>) {
 
     private val arg: ArgHandler = argHandler
-    private val users:List<User> = Users
-    private  val resources = Resources
-    private  val sessions = Sessions
+    private val users: List<User> = Users
+    private val resources = Resources
+    private val sessions = Sessions
     private val user = getUser()
 
-    init {
-        if (argHandler.NeedAuth())
-            start()
-        else
-            exitProcess(ExitCodes.Success.code)
+    fun start(): Int {
 
-    }
-
-
-    private fun start() {
-
-        if (arg.ValidateLogin())
-            if (user != null)
-                if (checkLoinPass())
-                    Authorization(arg, user,resources,sessions)
+        if (!arg.ChekArg())
+            if (!arg.ChekHelp())
+                return if (arg.NeedAuth())
+                    if (arg.ValidateLogin())
+                        if (user != null)
+                            if (checkLoinPass()) {
+                                Authorization(arg, user, resources, sessions).start()
+                            } else
+                                ExitCodes.InvalidPassword.code
+                        else
+                            ExitCodes.UnknownLogin.code
+                    else
+                        ExitCodes.InvalidLoginFormat.code
                 else
-                    exitProcess(ExitCodes.InvalidPassword.code)
+                    ExitCodes.Success.code
             else
-                exitProcess(ExitCodes.UnknownLogin.code)
+                return ExitCodes.HelpCode.code
         else
-            exitProcess(ExitCodes.InvalidLoginFormat.code)
+            return ExitCodes.HelpCode.code
 
     }
 
