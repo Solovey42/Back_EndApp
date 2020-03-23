@@ -10,9 +10,8 @@ class Authentication(argHandler: ArgHandler) {
     private fun start(argHandler: ArgHandler) {
         if (argHandler.NeedAuth())
             if (argHandler.ValidateLogin())
-                if (CheckLogin(argHandler))
-                    if (CheckLoinPass(argHandler))
-                    else
+                if (checkLogin(argHandler))
+                    if (!checkLoinPass(argHandler))
                         exitProcess(ExitCodes.InvalidPassword.code)
                 else
                     exitProcess(ExitCodes.UnknownLogin.code)
@@ -23,11 +22,11 @@ class Authentication(argHandler: ArgHandler) {
     }
 
 
-    private fun CheckLogin(argHandler: ArgHandler): Boolean {
+    private fun checkLogin(argHandler: ArgHandler): Boolean {
         return Users.contains(Users.find { it.login == argHandler.login })
     }
 
-    private fun CheckLoinPass(argHandler: ArgHandler): Boolean {
+    private fun checkLoinPass(argHandler: ArgHandler): Boolean {
 
         return Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password
     }
