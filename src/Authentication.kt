@@ -23,11 +23,11 @@ class Authentication(argHandler: ArgHandler) {
     }
 
 
-    fun CheckLogin(argHandler: ArgHandler): Boolean {
+    private fun CheckLogin(argHandler: ArgHandler): Boolean {
         return Users.contains(Users.find { it.login == argHandler.login })
     }
 
-    fun CheckLoinPass(argHandler: ArgHandler): Boolean {
+    private fun CheckLoinPass(argHandler: ArgHandler): Boolean {
 
         return Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password
     }
