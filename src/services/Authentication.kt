@@ -9,15 +9,20 @@ import kotlin.system.exitProcess
 
 class Authentication(argHandler: ArgHandler) {
 
+    private val user = getUser(argHandler)
+
     init {
         if (argHandler.NeedAuth())
             start(argHandler)
+
     }
 
+
     private fun start(argHandler: ArgHandler) {
+
         if (argHandler.NeedAuth())
             if (argHandler.ValidateLogin())
-                if (getUser(argHandler)== null)
+                if (user != null)
                     if (checkLoinPass(argHandler))
                         Authorization(argHandler)
                     else
@@ -38,7 +43,7 @@ class Authentication(argHandler: ArgHandler) {
 
     private fun checkLoinPass(argHandler: ArgHandler): Boolean {
 
-        return getUser(argHandler)!!.hash == generateHash(argHandler.password, getUser(argHandler)!!.salt)
+        return user!!.hash == generateHash(argHandler.password, user.salt)
     }
 
 
