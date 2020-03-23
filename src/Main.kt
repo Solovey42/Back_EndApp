@@ -6,6 +6,7 @@ import services.Authentication
 
 fun main(args: Array<String>) {
 
+
     val argHandler = ArgHandler(args)
     argHandler.ChekArg()
     argHandler.ChekHelp()
@@ -14,12 +15,11 @@ fun main(args: Array<String>) {
 
 }
 
-var Users: List<User> = listOf(User("vasya", "123","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3","dad1ef245"), User("admin", "admin","8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918","dke94jgj4"), User("q", "?!@","611428b8a9db97cc5210a3450aaea01d4218bc2aa7a466fb91f007ba501911ca","djrl409fj"), User("abcd", "qwerty","65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5","dlk4u9f39"))
+var Users: List<User> = listOf(User("vasya", "123", "0a4b21dd234f89b25e9a39ed87273253dc1840ccf23ee2a90380c698280f5338", "dad1ef245"), User("admin", "admin", "d6fed044a4457acf2437d68189251a6d07918c9d7345421ec5c0a2f1043766a7", "dke94jgj4"), User("q", "?!@", "580cbc37144acf152ca48ca59f6cc5b1fbc2a53b947cdf8c29939e979a030900", "djrl409fj"), User("abcd", "qwerty", "6f80cf73456754822a8c47261f488fc1c57267eab2981e360797b9876849b0f3", "dlk4u9f39"))
 
 var Resources: List<Resource> = listOf(Resource("A", Roles.READ, Users[0]), Resource("A.B.C", Roles.WRITE, Users[0]), Resource("A.B", Roles.EXECUTE, Users[1]), Resource("A", Roles.READ, Users[1]), Resource("A.B", Roles.WRITE, Users[1]), Resource("A.B.C", Roles.READ, Users[1]), Resource("B", Roles.EXECUTE, Users[2]), Resource("A.A.A", Roles.EXECUTE, Users[0]))
 
 var Sessions: MutableList<Session> = mutableListOf()
-
 
 
 
