@@ -14,11 +14,12 @@ class Accounting(argHandler: ArgHandler) {
                     exitProcess(ExitCodes.Success.code)
                 } else exitProcess(ExitCodes.IncorrectActivity.code)
             else exitProcess(ExitCodes.IncorrectActivity.code)
-
-
     }
 
     fun AddSession(argHandler: ArgHandler) {
-        Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
+        val session = Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
+        Sessions.add(session)
+
+
     }
 }
