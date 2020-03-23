@@ -45,7 +45,7 @@
 |T3.4	|`app.jar -login vasya -pass 123 -role READ -res A.B`|	0|
 |T3.5	|`app.jar -login admin -pass admin -role WRITE -res A.B.C`|	0|
 |T3.6	|`app.jar -login vasya -pass 1234 -role DELETE -res A`	|4|
-|T3.7	|`app.jar -login vasya -pass 123 -role WRITE -res A.B.C`	|6|
+|T3.7	|`app.jar -login vasya -pass 123 -role WRITE -res A.B.C`	|0|
 |T3.8	|`app.jar -login admin -pass admin -role READ`	|0 (удачная аутентиф.)|
 | T3.9	|`app.jar -login admin -pass admin -role EXECUTE -res A`|	6|
 | T3.10	|`app.jar -login admin -pass admin -role WRITE -res A.A`	|6|
