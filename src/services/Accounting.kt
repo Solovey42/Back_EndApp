@@ -2,19 +2,18 @@ package services
 
 import ArgHandler
 import enums.ExitCodes
-import Resources
 import models.Session
-import Sessions
-import Users
 import models.Resource
 import models.User
 import java.time.LocalDate
 import kotlin.system.exitProcess
 
-class Accounting(argHandler: ArgHandler, User: User) {
+class Accounting(argHandler: ArgHandler, User: User, Sessions: List<Session>, Resources: List<Resource>) {
 
     private val arg: ArgHandler = argHandler
     private val user = User
+    private val resources = Resources
+    private var sessions = Sessions.toMutableList()
     private val res = getRes()
 
     init {
@@ -25,20 +24,19 @@ class Accounting(argHandler: ArgHandler, User: User) {
         if (arg.NeedAcc())
             if (arg.CheckDate())
                 if (arg.CheckVol()) {
-                    AddSession()
+                    addSession()
                     exitProcess(ExitCodes.Success.code)
                 } else exitProcess(ExitCodes.IncorrectActivity.code)
             else exitProcess(ExitCodes.IncorrectActivity.code)
     }
 
-    private fun AddSession() {
+    private fun addSession() {
         val session = if (res != null) Session(user, res, LocalDate.parse(arg.ds), LocalDate.parse(arg.ds), arg.vol.toInt()) else null
-        Sessions.add(session!!)
-
+        sessions.add(session!!)
 
     }
 
     private fun getRes(): Resource? {
-        return Resources[Resources.indexOf(Resources.find { it.res == arg.res })]
+        return resources[resources.indexOf(resources.find { it.res == arg.res })]
     }
 }

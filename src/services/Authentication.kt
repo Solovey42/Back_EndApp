@@ -2,14 +2,18 @@ package services
 
 import ArgHandler
 import enums.ExitCodes
-import Users
+import models.Resource
+import models.Session
 import models.User
 import java.security.MessageDigest
 import kotlin.system.exitProcess
 
-class Authentication(argHandler: ArgHandler) {
+class Authentication(argHandler: ArgHandler,Users:List<User>,Resources:List<Resource>,Sessions:List<Session>) {
 
     private val arg: ArgHandler = argHandler
+    private val users:List<User> = Users
+    private  val resources = Resources
+    private  val sessions = Sessions
     private val user = getUser()
 
     init {
@@ -26,7 +30,7 @@ class Authentication(argHandler: ArgHandler) {
         if (arg.ValidateLogin())
             if (user != null)
                 if (checkLoinPass())
-                    Authorization(arg, user)
+                    Authorization(arg, user,resources,sessions)
                 else
                     exitProcess(ExitCodes.InvalidPassword.code)
             else
@@ -38,9 +42,8 @@ class Authentication(argHandler: ArgHandler) {
 
 
     private fun getUser(): User? {
-        return Users.find { it.login == arg.login }
+        return users.find { it.login == arg.login }
     }
-
 
     private fun checkLoinPass(): Boolean {
 

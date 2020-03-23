@@ -2,15 +2,18 @@ package services
 
 import ArgHandler
 import enums.ExitCodes
-import Resources
 import enums.Roles
+import models.Resource
+import models.Session
 import models.User
 import kotlin.system.exitProcess
 
-class Authorization(argHandler: ArgHandler, User: User) {
+class Authorization(argHandler: ArgHandler, User: User, Resources: List<Resource>, Sessions: List<Session>) {
 
     private val user = User
     private val arg = argHandler
+    private val resources = Resources
+    private val sessions = Sessions
 
 
     init {
@@ -33,11 +36,11 @@ class Authorization(argHandler: ArgHandler, User: User) {
         val nodes = arg.res.split(".")
         for (index in nodes.indices) {
             val currentNode = nodes.subList(0, index + 1).joinToString(".")
-            if (Resources.any { it.res == currentNode && it.role.name == arg.role && it.user == user })
+            if (resources.any { it.res == currentNode && it.role.name == arg.role && it.user == user })
                 if (!arg.NeedAcc())
                     exitProcess(ExitCodes.Success.code)
                 else
-                    Accounting(arg, user)
+                    Accounting(arg, user, sessions, resources)
 
         }
 
