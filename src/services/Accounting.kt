@@ -6,6 +6,8 @@ import Resources
 import models.Session
 import Sessions
 import Users
+import models.Resource
+import models.User
 import java.time.LocalDate
 import kotlin.system.exitProcess
 
@@ -29,5 +31,9 @@ class Accounting(argHandler: ArgHandler) {
         Sessions.add(session)
 
 
+    }
+
+    private fun getRes(): Resource? {
+        return Resources[Resources.indexOf(Resources.find { it.res == arg.res })]
     }
 }
