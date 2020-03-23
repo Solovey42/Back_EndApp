@@ -36,7 +36,7 @@ class Authentication(argHandler: ArgHandler) {
 
     private fun checkLoinPass(argHandler: ArgHandler): Boolean {
 
-        return Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password
+        return Users[Users.indexOf(Users.find { it.login == argHandler.login })].hash == generateHash(argHandler.password, Users[Users.indexOf(Users.find { it.login == argHandler.login })].salt)
     }
 
 
