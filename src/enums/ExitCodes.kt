@@ -1,4 +1,4 @@
-package Enums
+package enums
 
 enum class ExitCodes(val code: Int) {
     Success(0),

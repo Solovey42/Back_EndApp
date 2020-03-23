@@ -1,5 +1,5 @@
-package Models
+package models
 
-import Enums.Roles
+import enums.Roles
 
 data class Resource(val res: String, val role: Roles, val user: User)

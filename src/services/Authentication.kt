@@ -1,7 +1,7 @@
-package Services
+package services
 
 import ArgHandler
-import Enums.ExitCodes
+import enums.ExitCodes
 import Users
 import kotlin.system.exitProcess
 

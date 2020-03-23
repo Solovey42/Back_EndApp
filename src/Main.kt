@@ -1,8 +1,8 @@
-import Enums.Roles
-import Models.Resource
-import Models.Session
-import Models.User
-import Services.Authentication
+import enums.Roles
+import models.Resource
+import models.Session
+import models.User
+import services.Authentication
 
 fun main(args: Array<String>) {
 

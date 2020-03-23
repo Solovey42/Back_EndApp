@@ -1,9 +1,9 @@
-package Services
+package services
 
 import ArgHandler
-import Enums.ExitCodes
+import enums.ExitCodes
 import Resources
-import Models.Session
+import models.Session
 import Sessions
 import Users
 import java.time.LocalDate
