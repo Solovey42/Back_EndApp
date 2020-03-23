@@ -12,6 +12,7 @@ class Authentication(argHandler: ArgHandler) {
             if (argHandler.ValidateLogin())
                 if (checkLogin(argHandler))
                     if (checkLoinPass(argHandler))
+                        Authorization(argHandler)
                     else
                         exitProcess(ExitCodes.InvalidPassword.code)
                 else
