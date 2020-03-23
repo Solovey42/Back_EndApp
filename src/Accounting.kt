@@ -16,7 +16,7 @@ class Accounting(argHandler: ArgHandler) {
             else exitProcess(ExitCodes.IncorrectActivity.code)
     }
 
-    fun AddSession(argHandler: ArgHandler) {
+    private fun AddSession(argHandler: ArgHandler) {
         val session = Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
         Sessions.add(session)
 
