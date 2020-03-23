@@ -11,24 +11,29 @@ import models.User
 import java.time.LocalDate
 import kotlin.system.exitProcess
 
-class Accounting(argHandler: ArgHandler) {
+class Accounting(argHandler: ArgHandler, User: User) {
+
+    private val arg: ArgHandler = argHandler
+    private val user = User
+    private val res = getRes()
+
     init {
-        start(argHandler)
+        start()
     }
 
-    private fun start(argHandler: ArgHandler) {
-        if (argHandler.NeedAcc())
-            if (argHandler.CheckDate())
-                if (argHandler.CheckVol()) {
-                    AddSession(argHandler)
+    private fun start() {
+        if (arg.NeedAcc())
+            if (arg.CheckDate())
+                if (arg.CheckVol()) {
+                    AddSession()
                     exitProcess(ExitCodes.Success.code)
                 } else exitProcess(ExitCodes.IncorrectActivity.code)
             else exitProcess(ExitCodes.IncorrectActivity.code)
     }
 
-    private fun AddSession(argHandler: ArgHandler) {
-        val session = Session(Users[Users.indexOf(Users.find { it.login == argHandler.login })], Resources[Resources.indexOf(Resources.find { it.res == argHandler.res })], LocalDate.parse(argHandler.ds), LocalDate.parse(argHandler.ds), argHandler.vol.toInt())
-        Sessions.add(session)
+    private fun AddSession() {
+        val session = if (res != null) Session(user, res, LocalDate.parse(arg.ds), LocalDate.parse(arg.ds), arg.vol.toInt()) else null
+        Sessions.add(session!!)
 
 
     }
