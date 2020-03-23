@@ -9,24 +9,25 @@ import kotlin.system.exitProcess
 
 class Authentication(argHandler: ArgHandler) {
 
-    private val user = getUser(argHandler)
+    private val arg: ArgHandler = argHandler
+    private val user = getUser()
 
     init {
         if (argHandler.NeedAuth())
-            start(argHandler)
+            start()
         else
             exitProcess(ExitCodes.Success.code)
 
     }
 
 
-    private fun start(argHandler: ArgHandler) {
+    private fun start() {
 
 
-        if (argHandler.ValidateLogin())
+        if (arg.ValidateLogin())
             if (user != null)
-                if (checkLoinPass(argHandler))
-                    Authorization(argHandler)
+                if (checkLoinPass())
+                    Authorization(arg)
                 else
                     exitProcess(ExitCodes.InvalidPassword.code)
             else
@@ -37,18 +38,18 @@ class Authentication(argHandler: ArgHandler) {
     }
 
 
-    private fun getUser(argHandler: ArgHandler): User? {
-        return Users.find { it.login == argHandler.login }
+    private fun getUser(): User? {
+        return Users.find { it.login == arg.login }
     }
 
 
-    private fun checkLoinPass(argHandler: ArgHandler): Boolean {
+    private fun checkLoinPass(): Boolean {
 
-        return user!!.hash == generateHash(argHandler.password, user.salt)
+        return user!!.hash == generateHash(arg.password, user.salt)
     }
 
 
-    fun generateHash(plaintext: String, salt: String) =
+    private fun generateHash(plaintext: String, salt: String) =
             MessageDigest.getInstance("SHA-256")
                     .digest((plaintext + salt).toByteArray())
                     .fold("", { str, it -> str + "%02x".format(it) })
