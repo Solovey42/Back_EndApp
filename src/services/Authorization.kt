@@ -25,7 +25,7 @@ class Authorization(argHandler: ArgHandler, User: User) {
     }
 
     private fun checkResRole() {
-        if (Roles.check().contains(arg.role))
+        if (!Roles.check().contains(arg.role))
             exitProcess(ExitCodes.UnknownRole.code)
         if (!arg.CheckResName())
             exitProcess((ExitCodes.UnknownRole.code))
