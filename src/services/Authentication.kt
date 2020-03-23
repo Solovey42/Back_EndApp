@@ -17,7 +17,7 @@ class Authentication(argHandler: ArgHandler) {
     private fun start(argHandler: ArgHandler) {
         if (argHandler.NeedAuth())
             if (argHandler.ValidateLogin())
-                if (checkLogin(argHandler))
+                if (getUser(argHandler)== null)
                     if (checkLoinPass(argHandler))
                         Authorization(argHandler)
                     else
@@ -31,17 +31,14 @@ class Authentication(argHandler: ArgHandler) {
     }
 
 
-    private fun checkLogin(argHandler: ArgHandler): Boolean {
-        return Users.contains(Users.find { it.login == argHandler.login })
+    private fun getUser(argHandler: ArgHandler): User? {
+        return Users.find { it.login == argHandler.login }
     }
 
-    private fun getUser(argHandler: ArgHandler): User {
-        return Users[Users.indexOf(Users.find { it.login == argHandler.login })]
-    }
 
     private fun checkLoinPass(argHandler: ArgHandler): Boolean {
 
-        return Users[Users.indexOf(Users.find { it.login == argHandler.login })].hash == generateHash(argHandler.password, Users[Users.indexOf(Users.find { it.login == argHandler.login })].salt)
+        return getUser(argHandler)!!.hash == generateHash(argHandler.password, getUser(argHandler)!!.salt)
     }
 
 
