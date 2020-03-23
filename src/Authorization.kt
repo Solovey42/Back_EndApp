@@ -14,19 +14,21 @@ class Authorization(argHandler: ArgHandler) {
 
     fun CheckResRole(argHandler: ArgHandler): Boolean {
         if (argHandler.role != Roles.EXECUTE.name && argHandler.role != Roles.READ.name && argHandler.role != Roles.WRITE.name)
-            exitProcess(5)
+            exitProcess(ExitCodes.UnknownRole.code)
+        if (!argHandler.CheckResName())
+            exitProcess((ExitCodes.UnknownRole.code))
 
         val nodes = argHandler.res.split(".")
         for (index in nodes.indices) {
             val currentNode = nodes.subList(0, index + 1).joinToString(".")
             if (Resources.any { it.res == currentNode && it.role.name == argHandler.role })
                 if (!argHandler.NeedAcc())
-                    exitProcess(0)
+                    exitProcess(ExitCodes.Success.code)
                 else
                     Accounting(argHandler)
 
         }
 
-        exitProcess(6)
+        exitProcess(ExitCodes.NoAccess.code)
     }
 }
