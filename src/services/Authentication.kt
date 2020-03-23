@@ -23,11 +23,10 @@ class Authentication(argHandler: ArgHandler) {
 
     private fun start() {
 
-
         if (arg.ValidateLogin())
             if (user != null)
                 if (checkLoinPass())
-                    Authorization(arg)
+                    Authorization(arg, user)
                 else
                     exitProcess(ExitCodes.InvalidPassword.code)
             else
@@ -47,7 +46,6 @@ class Authentication(argHandler: ArgHandler) {
 
         return user!!.hash == generateHash(arg.password, user.salt)
     }
-
 
     private fun generateHash(plaintext: String, salt: String) =
             MessageDigest.getInstance("SHA-256")
