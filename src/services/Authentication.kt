@@ -3,6 +3,7 @@ package services
 import ArgHandler
 import enums.ExitCodes
 import Users
+import java.security.MessageDigest
 import kotlin.system.exitProcess
 
 class Authentication(argHandler: ArgHandler) {
@@ -37,6 +38,12 @@ class Authentication(argHandler: ArgHandler) {
 
         return Users[Users.indexOf(Users.find { it.login == argHandler.login })].pass == argHandler.password
     }
+
+
+    fun generateHash(plaintext: String, salt: String) =
+            MessageDigest.getInstance("SHA-256")
+                    .digest((plaintext + salt).toByteArray())
+                    .fold("", { str, it -> str + "%02x".format(it) })
 
 
 }
