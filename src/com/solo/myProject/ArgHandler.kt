@@ -1,4 +1,5 @@
 package com.solo.myProject
+
 import java.time.LocalDate
 
 
@@ -13,24 +14,24 @@ class ArgHandler(args: Array<String>) {
     var vol: String = ""
 
     init {
-        for (arg in args) {
-            when (arg) {
-                "-login" -> login = args[args.indexOf(arg) + 1]
-                "-pass" -> password = args[args.indexOf(arg) + 1]
-                "-role" -> role = args[args.indexOf(arg) + 1]
-                "-res" -> res = args[args.indexOf(arg) + 1]
-                "-ds" -> ds = args[args.indexOf(arg) + 1]
-                "-de" -> de = args[args.indexOf(arg) + 1]
-                "-vol" -> vol = args[args.indexOf(arg) + 1]
+        for (i in 0..7) {
+            when (args[i]) {
+                "-login" -> login = args[i + 1]
+                "-pass" -> password = args[i + 1]
+                "-role" -> role = args[i + 1]
+                "-res" -> res = args[i + 1]
+                "-ds" -> ds = args[i + 1]
+                "-de" -> de = args[i + 1]
+                "-vol" -> vol = args[i + 1]
             }
         }
     }
 
 
-    fun ChekArg():Boolean {
+    fun CheckArg(): Boolean {
         if (arr.isEmpty()) {
             PrintHelp()
-            return  true
+            return true
         }
         return false
 
@@ -46,7 +47,7 @@ class ArgHandler(args: Array<String>) {
             "        -login <str> -pass <str> -res <str> -role <str> - авторизация к введенному ресурсу\n" +
             "        -ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - занесение данных об использовании ресурса(только после авторизации"
 
-    fun ChekHelp():Boolean {
+    fun CheckHelp(): Boolean {
         if (arr[0] == "-h") {
             PrintHelp()
             return true
