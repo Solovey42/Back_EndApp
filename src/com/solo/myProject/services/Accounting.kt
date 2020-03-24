@@ -14,8 +14,7 @@ class Accounting(argHandler: ArgHandler, User: User, var sessions: MutableList<S
     private val res = getRes()
 
 
-
-    fun start():Int {
+    fun start(): Int {
         return if (arg.NeedAcc())
             if (arg.CheckDate())
                 if (arg.CheckVol()) {
@@ -28,7 +27,8 @@ class Accounting(argHandler: ArgHandler, User: User, var sessions: MutableList<S
 
     private fun addSession() {
         val session = if (res != null) Session(user, res, LocalDate.parse(arg.ds), LocalDate.parse(arg.ds), arg.vol.toInt()) else null
-        sessions.add(session!!)
+        if (session != null)
+            sessions.add(session)
 
     }
 
