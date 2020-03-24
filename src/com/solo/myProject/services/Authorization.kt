@@ -13,14 +13,14 @@ class Authorization(argHandler: ArgHandler, User: User, private val resources: L
     private val arg = argHandler
 
 
-    fun start():Int {
+    fun start(): Int {
         if (!arg.NeedAuthorization())
             return ExitCodes.Success.code
         return checkResRole()
 
     }
 
-    private fun checkResRole():Int {
+    private fun checkResRole(): Int {
         if (!Roles.check(arg.role))
             return ExitCodes.UnknownRole.code
         if (!arg.CheckResName())
@@ -31,7 +31,7 @@ class Authorization(argHandler: ArgHandler, User: User, private val resources: L
             val currentNode = nodes.subList(0, index + 1).joinToString(".")
             if (resources.any { it.res == currentNode && it.role.name == arg.role && it.user == user })
                 return if (!arg.NeedAcc())
-                     ExitCodes.Success.code
+                    ExitCodes.Success.code
                 else
                     Accounting(arg, user, sessions, resources).start()
 

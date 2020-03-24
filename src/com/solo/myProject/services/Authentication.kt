@@ -22,7 +22,7 @@ class Authentication(argHandler: ArgHandler, private val users: List<User>, priv
             return ExitCodes.Success.code
         if (!arg.ValidateLogin())
             return ExitCodes.InvalidLoginFormat.code
-        if (user==null)
+        if (user == null)
             return ExitCodes.UnknownLogin.code
         if (!checkLoinPass())
             return ExitCodes.InvalidPassword.code

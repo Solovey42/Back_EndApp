@@ -30,7 +30,6 @@ val resources: List<Resource> = listOf(Resource("A", Roles.READ, users[0]),
         Resource("A.A.A", Roles.EXECUTE, users[0]))
 
 
-
 var sessions: MutableList<Session> = mutableListOf()
 
 

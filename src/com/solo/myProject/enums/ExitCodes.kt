@@ -11,5 +11,4 @@ enum class ExitCodes(val code: Int) {
     IncorrectActivity(7), ;
 
 
-
 }
