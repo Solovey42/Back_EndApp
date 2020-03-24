@@ -14,7 +14,7 @@ class ArgHandler(args: Array<String>) {
     var vol: String = ""
 
     init {
-        for (i in arr.indices) {
+        for (i in 0..arr.size - 1) {
             when (args[i]) {
                 "-login" -> login = args[i + 1]
                 "-pass" -> password = args[i + 1]
@@ -55,9 +55,8 @@ class ArgHandler(args: Array<String>) {
         return false
     }
 
-    fun NeedAuth(): Boolean = when {
-        login != "" && password != "" -> true
-        else -> false
+    fun NeedAuth(): Boolean {
+        return login != "" && password != ""
     }
 
     fun ValidateLogin(): Boolean {
@@ -66,20 +65,17 @@ class ArgHandler(args: Array<String>) {
 
     }
 
-    fun NeedAuthorization(): Boolean = when {
-        res != "" -> true
-        else -> false
+    fun NeedAuthorization(): Boolean {
+        return res != ""
     }
 
     fun CheckResName(): Boolean {
-
         return res.matches(Regex("[A-Z]+(|.[A-Z]+)+"))
     }
 
 
-    fun NeedAcc(): Boolean = when {
-        ds != "" -> true
-        else -> false
+    fun NeedAcc(): Boolean {
+        return ds != ""
     }
 
     fun CheckDate(): Boolean {
