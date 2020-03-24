@@ -2,7 +2,6 @@ package com.solo.myProject
 
 import java.time.LocalDate
 
-
 class ArgHandler(args: Array<String>) {
     private val arr: Array<String> = args
     var login: String = ""
@@ -14,7 +13,7 @@ class ArgHandler(args: Array<String>) {
     var vol: String = ""
 
     init {
-        for (i in 0..arr.size - 1) {
+        for (i in arr.indices) {
             when (args[i]) {
                 "-login" -> login = args[i + 1]
                 "-pass" -> password = args[i + 1]
@@ -27,77 +26,55 @@ class ArgHandler(args: Array<String>) {
         }
     }
 
-
-    fun CheckArg(): Boolean {
+    fun checkArg(): Boolean {
         if (arr.isEmpty()) {
-            PrintHelp()
+            printHelp()
             return true
         }
         return false
-
-
     }
 
-    fun PrintHelp() {
-        print(Help)
-    }
+    private fun printHelp() = print(help)
 
-    val Help: String = "-h - вызов справки\n" +
-            "        -login <str> -pass <str> - аутентификация s\n" +
-            "        -login <str> -pass <str> -res <str> -role <str> - авторизация к введенному ресурсу\n" +
-            "        -ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - занесение данных об использовании ресурса(только после авторизации"
+    private val help: String =
+            "-h - вызов справки\n" +
+            "-login <str> -pass <str> - аутентификация s\n" +
+            "-login <str> -pass <str> -res <str> -role <str> - авторизация к введенному ресурсу\n" +
+            "-ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - занесение данных об использовании ресурса(только после авторизации"
 
-    fun CheckHelp(): Boolean {
+    fun checkHelp(): Boolean {
         if (arr[0] == "-h") {
-            PrintHelp()
+            printHelp()
             return true
         }
         return false
     }
 
-    fun NeedAuth(): Boolean {
-        return login != "" && password != ""
-    }
+    fun needAuth(): Boolean = login != "" && password != ""
 
-    fun ValidateLogin(): Boolean {
+    fun validateLogin(): Boolean = login.matches(Regex("[a-z]{1,10}"))
 
-        return login.matches(Regex("[a-z]{1,10}"))
+    fun needAuthorization(): Boolean = res != ""
 
-    }
+    fun checkResName(): Boolean = res.matches(Regex("[A-Z]+(|.[A-Z]+)+"))
 
-    fun NeedAuthorization(): Boolean {
-        return res != ""
-    }
+    fun needAcc(): Boolean = ds != ""
 
-    fun CheckResName(): Boolean {
-        return res.matches(Regex("[A-Z]+(|.[A-Z]+)+"))
-    }
-
-
-    fun NeedAcc(): Boolean {
-        return ds != ""
-    }
-
-    fun CheckDate(): Boolean {
+    fun checkDate(): Boolean {
         return try {
             val timeStart = LocalDate.parse(ds)
             val timeEnd = LocalDate.parse(de)
             timeStart < timeEnd
-
         } catch (e: Exception) {
             false
         }
-
-
     }
 
-    fun CheckVol(): Boolean {
+    fun checkVol(): Boolean {
         return try {
             vol.toInt() > 0
         } catch (e: Exception) {
             false
         }
     }
-
-
 }

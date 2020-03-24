@@ -6,7 +6,4 @@ enum class Roles {
     companion object {
         fun check(role: String) = values().map { it.name }.contains(role)
     }
-
 }
-
-

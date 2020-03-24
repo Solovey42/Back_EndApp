@@ -7,30 +7,25 @@ import com.solo.myProject.models.Resource
 import com.solo.myProject.models.User
 import java.time.LocalDate
 
-class Accounting(argHandler: ArgHandler, User: User, var sessions: MutableList<Session>, private val resources: List<Resource>) {
+class Accounting(private val arg: ArgHandler, private val user: User, var sessions: MutableList<Session>, private val resources: List<Resource>) {
 
-    private val arg: ArgHandler = argHandler
-    private val user = User
     private val res = getRes()
 
-
     fun start(): Int {
-        if (!arg.NeedAcc())
+        if (!arg.needAcc())
             return ExitCodes.Success.code
-        if (!arg.CheckDate())
+        if (!arg.checkDate())
             return ExitCodes.IncorrectActivity.code
-        if (!arg.CheckVol())
+        if (!arg.checkVol())
             return ExitCodes.IncorrectActivity.code
         addSession()
         return ExitCodes.Success.code
-
     }
 
     private fun addSession() {
         val session = if (res != null) Session(user, res, LocalDate.parse(arg.ds), LocalDate.parse(arg.ds), arg.vol.toInt()) else null
         if (session != null)
             sessions.add(session)
-
     }
 
     private fun getRes(): Resource? {
