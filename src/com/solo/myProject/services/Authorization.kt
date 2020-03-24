@@ -23,7 +23,7 @@ class Authorization(argHandler: ArgHandler, User: User, private val resources: L
     }
 
     private fun checkResRole():Int {
-        if (!Roles.check().contains(arg.role))
+        if (!Roles.check(arg.role))
             return ExitCodes.UnknownRole.code
         if (!arg.CheckResName())
             return ExitCodes.UnknownRole.code

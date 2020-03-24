@@ -4,7 +4,9 @@ enum class Roles {
     READ, WRITE, EXECUTE;
 
     companion object {
-        fun check() = values().map { it.name }
+        fun check(role: String) = values().map { it.name }.contains(role)
     }
 
 }
+
+
