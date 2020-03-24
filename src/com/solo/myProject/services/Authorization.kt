@@ -7,12 +7,11 @@ import com.solo.myProject.models.Resource
 import com.solo.myProject.models.Session
 import com.solo.myProject.models.User
 
-class Authorization(argHandler: ArgHandler, User: User, Resources: List<Resource>, Sessions: List<Session>) {
+class Authorization(argHandler: ArgHandler, User: User, private val resources: List<Resource>, var sessions: MutableList<Session>) {
 
     private val user = User
     private val arg = argHandler
-    private val resources = Resources
-    private val sessions = Sessions
+
 
     fun start():Int {
         return if (arg.NeedAuthorization())

@@ -10,7 +10,7 @@ import kotlin.system.exitProcess
 fun main(args: Array<String>) {
 
     val argHandler = ArgHandler(args)
-    val returnCode = Authentication(argHandler, Users, Resources, Sessions).start()
+    val returnCode = Authentication(argHandler, Users, Resources, Sessions.toMutableList()).start()
     exitProcess(returnCode)
 
 }

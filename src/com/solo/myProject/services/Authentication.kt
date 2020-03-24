@@ -7,18 +7,15 @@ import com.solo.myProject.models.Session
 import com.solo.myProject.models.User
 import java.security.MessageDigest
 
-class Authentication(argHandler: ArgHandler, Users: List<User>, Resources: List<Resource>, Sessions: List<Session>) {
+class Authentication(argHandler: ArgHandler, private val users: List<User>, private val resources: List<Resource>, private val sessions: MutableList<Session>) {
 
     private val arg: ArgHandler = argHandler
-    private val users: List<User> = Users
-    private val resources = Resources
-    private val sessions = Sessions
     private val user = getUser()
 
     fun start(): Int {
 
-        if (!arg.ChekArg())
-            if (!arg.ChekHelp())
+        if (!arg.CheckArg())
+            if (!arg.CheckHelp())
                 return if (arg.NeedAuth())
                     if (arg.ValidateLogin())
                         if (user != null)

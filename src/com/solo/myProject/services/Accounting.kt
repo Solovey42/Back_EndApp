@@ -7,12 +7,10 @@ import com.solo.myProject.models.Resource
 import com.solo.myProject.models.User
 import java.time.LocalDate
 
-class Accounting(argHandler: ArgHandler, User: User, Sessions: List<Session>, Resources: List<Resource>) {
+class Accounting(argHandler: ArgHandler, User: User, var sessions: MutableList<Session>, private val resources: List<Resource>) {
 
     private val arg: ArgHandler = argHandler
     private val user = User
-    private val resources = Resources
-    private var sessions = Sessions.toMutableList()
     private val res = getRes()
 
 
