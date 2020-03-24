@@ -14,7 +14,7 @@ class ArgHandler(args: Array<String>) {
     var vol: String = ""
 
     init {
-        for (i in 0..7) {
+        for (i in arr.indices) {
             when (args[i]) {
                 "-login" -> login = args[i + 1]
                 "-pass" -> password = args[i + 1]
