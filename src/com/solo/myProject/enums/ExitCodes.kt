@@ -1,4 +1,4 @@
-package enums
+package com.solo.myProject.enums
 
 enum class ExitCodes(val code: Int) {
     Success(0),

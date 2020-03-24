@@ -1,10 +1,10 @@
-package services
+package com.solo.myProject.services
 
-import ArgHandler
-import enums.ExitCodes
-import models.Resource
-import models.Session
-import models.User
+import com.solo.myProject.ArgHandler
+import com.solo.myProject.enums.ExitCodes
+import com.solo.myProject.models.Resource
+import com.solo.myProject.models.Session
+import com.solo.myProject.models.User
 import java.security.MessageDigest
 
 class Authentication(argHandler: ArgHandler, Users: List<User>, Resources: List<Resource>, Sessions: List<Session>) {

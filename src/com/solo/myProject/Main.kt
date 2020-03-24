@@ -1,16 +1,16 @@
-import enums.ExitCodes
-import enums.Roles
-import models.Resource
-import models.Session
-import models.User
-import services.Authentication
-import services.Authorization
+package com.solo.myProject
+
+import com.solo.myProject.enums.Roles
+import com.solo.myProject.models.Resource
+import com.solo.myProject.models.Session
+import com.solo.myProject.models.User
+import com.solo.myProject.services.Authentication
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
 
     val argHandler = ArgHandler(args)
-    val returnCode = Authentication(argHandler,Users,Resources,Sessions).start()
+    val returnCode = Authentication(argHandler, Users, Resources, Sessions).start()
     exitProcess(returnCode)
 
 }

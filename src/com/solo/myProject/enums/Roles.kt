@@ -1,4 +1,4 @@
-package enums
+package com.solo.myProject.enums
 
 enum class Roles {
     READ, WRITE, EXECUTE;
