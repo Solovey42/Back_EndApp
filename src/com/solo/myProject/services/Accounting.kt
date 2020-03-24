@@ -15,14 +15,15 @@ class Accounting(argHandler: ArgHandler, User: User, var sessions: MutableList<S
 
 
     fun start(): Int {
-        return if (arg.NeedAcc())
-            if (arg.CheckDate())
-                if (arg.CheckVol()) {
-                    addSession()
-                    ExitCodes.Success.code
-                } else ExitCodes.IncorrectActivity.code
-            else ExitCodes.IncorrectActivity.code
-        else 0
+        if (!arg.NeedAcc())
+            return ExitCodes.Success.code
+        if (!arg.CheckDate())
+            return ExitCodes.IncorrectActivity.code
+        if (!arg.CheckVol())
+            return ExitCodes.IncorrectActivity.code
+        addSession()
+        return ExitCodes.Success.code
+
     }
 
     private fun addSession() {

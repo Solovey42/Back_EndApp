@@ -14,25 +14,20 @@ class Authentication(argHandler: ArgHandler, private val users: List<User>, priv
 
     fun start(): Int {
 
-        if (!arg.CheckArg())
-            if (!arg.CheckHelp())
-                return if (arg.NeedAuth())
-                    if (arg.ValidateLogin())
-                        if (user != null)
-                            if (checkLoinPass()) {
-                                Authorization(arg, user, resources, sessions).start()
-                            } else
-                                ExitCodes.InvalidPassword.code
-                        else
-                            ExitCodes.UnknownLogin.code
-                    else
-                        ExitCodes.InvalidLoginFormat.code
-                else
-                    ExitCodes.Success.code
-            else
-                return ExitCodes.HelpCode.code
-        else
+        if (arg.CheckArg())
             return ExitCodes.HelpCode.code
+        if (arg.CheckHelp())
+            return ExitCodes.HelpCode.code
+        if (!arg.NeedAuth())
+            return ExitCodes.Success.code
+        if (!arg.ValidateLogin())
+            return ExitCodes.InvalidLoginFormat.code
+        if (user==null)
+            return ExitCodes.UnknownLogin.code
+        if (!checkLoinPass())
+            return ExitCodes.InvalidPassword.code
+        return Authorization(arg, user, resources, sessions).start()
+
 
     }
 

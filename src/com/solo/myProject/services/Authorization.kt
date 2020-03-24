@@ -14,11 +14,9 @@ class Authorization(argHandler: ArgHandler, User: User, private val resources: L
 
 
     fun start():Int {
-        return if (arg.NeedAuthorization())
-            checkResRole()
-        else
-            0
-
+        if (!arg.NeedAuthorization())
+            return ExitCodes.Success.code
+        return checkResRole()
 
     }
 
@@ -33,7 +31,7 @@ class Authorization(argHandler: ArgHandler, User: User, private val resources: L
             val currentNode = nodes.subList(0, index + 1).joinToString(".")
             if (resources.any { it.res == currentNode && it.role.name == arg.role && it.user == user })
                 return if (!arg.NeedAcc())
-                    ExitCodes.Success.code
+                     ExitCodes.Success.code
                 else
                     Accounting(arg, user, sessions, resources).start()
 
