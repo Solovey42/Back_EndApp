@@ -8,10 +8,11 @@ function test() {
     test_name=$1
     params=$2
     expected_status=$3
-    output=$(./RUN.sh $params)
+    # shellcheck disable=SC2034
+    output=$(./RUN.sh "$params")
     actual_status=$?
 
-    if [ $actual_status -eq $expected_status ]
+    if [ $actual_status -eq "$expected_status" ]
     then
     ((tests_passed++))
     echo -e "\033[32m$test_name passed \033[0m"
