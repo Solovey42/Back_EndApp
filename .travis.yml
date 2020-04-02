@@ -1,5 +1,3 @@
-language: kotlin
-
 before_script:
   - sudo snap install --classic kotlin
   - chmod +x BUILD.sh
