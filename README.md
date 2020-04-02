@@ -1,4 +1,5 @@
 # [Учебное AAA-приложение]( https://solovey42.github.io/Back_EndApp/.)
+[![Build Status](https://travis-ci.com/Solovey42/Back_EndApp.svg?branch=master)](https://travis-ci.com/Solovey42/Back_EndApp)
 
 Планы выполнения:  
 1. [Первый набор требований](ROADMAP1.md)  
