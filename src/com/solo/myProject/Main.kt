@@ -4,10 +4,17 @@ import com.solo.myProject.enums.Roles
 import com.solo.myProject.models.Resource
 import com.solo.myProject.models.Session
 import com.solo.myProject.models.User
+import com.solo.myProject.services.Accounting
 import com.solo.myProject.services.Authentication
+import com.solo.myProject.services.Authorization
+import com.sun.tools.javac.Main
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
+    val log: Logger = LogManager.getLogger(Main::class.java)
+    log.error("StartProgramm")
     val argHandler = ArgHandler(args)
     val authentication = Authentication(argHandler, users, resources, sessions.toMutableList())
     var returnCode = authentication.start()

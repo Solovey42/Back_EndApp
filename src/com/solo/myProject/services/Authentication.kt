@@ -5,21 +5,27 @@ import com.solo.myProject.enums.ExitCodes
 import com.solo.myProject.models.Resource
 import com.solo.myProject.models.Session
 import com.solo.myProject.models.User
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import java.security.MessageDigest
+
 
 class Authentication(private val arg: ArgHandler, private val users: List<User>, private val resources: List<Resource>, private val sessions: MutableList<Session>) {
 
     private val user = getUser()
 
-    fun start(): Int {
+    val log: Logger = LogManager.getLogger()
+    fun start(): Int? {
         if (arg.checkArg())
             return ExitCodes.HelpCode.code
         if (arg.checkHelp())
             return ExitCodes.HelpCode.code
         if (!arg.needAuth())
             return ExitCodes.Success.code
-        if (!arg.validateLogin())
+        if (!arg.validateLogin()) {
+            log.info("Logging in user" + arg.login + "with pass" + arg.password + "error with InvalidLogin")
             return ExitCodes.InvalidLoginFormat.code
+        }
         if (user == null)
             return ExitCodes.UnknownLogin.code
         if (!checkLoinPass())
