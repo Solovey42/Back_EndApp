@@ -24,10 +24,10 @@ class Authentication(private val arg: ArgHandler, private val users: List<User>,
             return ExitCodes.UnknownLogin.code
         if (!checkLoinPass())
             return ExitCodes.InvalidPassword.code
-        return Authorization(arg, user, resources, sessions).start()
+        return null
     }
 
-    private fun getUser(): User? = users.find { it.login == arg.login }
+    fun getUser(): User? = users.find { it.login == arg.login }
 
     private fun checkLoinPass(): Boolean = user!!.hash == generateHash(arg.password, user.salt)
 

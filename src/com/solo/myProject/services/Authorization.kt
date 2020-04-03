@@ -9,13 +9,13 @@ import com.solo.myProject.models.User
 
 class Authorization(private val arg: ArgHandler, private val user: User, private val resources: List<Resource>, var sessions: MutableList<Session>) {
 
-    fun start(): Int {
+    fun start(): Int? {
         if (!arg.needAuthorization())
             return ExitCodes.Success.code
         return checkResRole()
     }
 
-    private fun checkResRole(): Int {
+    private fun checkResRole(): Int? {
         if (!Roles.check(arg.role))
             return ExitCodes.UnknownRole.code
         if (!arg.checkResName())
@@ -28,7 +28,7 @@ class Authorization(private val arg: ArgHandler, private val user: User, private
                 return if (!arg.needAcc())
                     ExitCodes.Success.code
                 else
-                    Accounting(arg, user, sessions, resources).start()
+                    return null
         }
         return ExitCodes.NoAccess.code
     }

@@ -9,7 +9,16 @@ import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     val argHandler = ArgHandler(args)
-    val returnCode = Authentication(argHandler, users, resources, sessions.toMutableList()).start()
+    val authentication = Authentication(argHandler, users, resources, sessions.toMutableList())
+    var returnCode = authentication.start()
+    if (returnCode == null) {
+        val authorization = Authorization(argHandler, authentication.getUser()!!, resources, sessions)
+        returnCode = authorization.start()
+    }
+    if (returnCode == null) {
+        val accounting = Accounting(argHandler, authentication.getUser()!!, sessions, resources)
+        returnCode = accounting.start()
+    }
     exitProcess(returnCode)
 }
 
