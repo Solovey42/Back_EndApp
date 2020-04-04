@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
-    val log: Logger = LogManager.getLogger(Main::class.java)
+    val log: Logger = LogManager.getLogger()
     log.error("StartProgramm")
     val argHandler = ArgHandler(args)
     val authentication = Authentication(argHandler, users, resources, sessions.toMutableList())

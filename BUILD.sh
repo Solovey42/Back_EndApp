@@ -9,3 +9,4 @@ fi
 
 mkdir -p bin
 kotlinc -include-runtime -d bin/app.jar src/ -cp $params
+jar uf bin/app.jar -C src log4j2.xml
