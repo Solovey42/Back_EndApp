@@ -19,11 +19,11 @@ fun main(args: Array<String>) {
     logger.error("Start Program")
     if (!File("./db", "aaa.h2.db").exists()) {
         logger.info("Create database")
-        val flyway = Flyway.configure().dataSource("jdbc:h2:file:./db/aaa;MV_STORE=FALSE", "Solo", "1234").locations("filesystem:db").load()
+        val flyway = Flyway.configure().dataSource(System.getenv("URL")+";MV_STORE=FALSE",  System.getenv("LOGIN"), System.getenv("PASS")).locations("filesystem:db").load()
         flyway.migrate()
     }
     logger.info("Connect database")
-    val conn = DriverManager.getConnection("jdbc:h2:file:./db/aaa", "Solo", "1234")
+    val conn = DriverManager.getConnection(System.getenv("URL")+";MV_STORE=FALSE", System.getenv("LOGIN"), System.getenv("PASS"))
 
     val users: MutableList<User> = mutableListOf()
     val resources: MutableList<Resource> = mutableListOf()
