@@ -2,15 +2,13 @@ package com.solo.myProject.services
 
 import com.solo.myProject.ArgHandler
 import com.solo.myProject.enums.ExitCodes
-import com.solo.myProject.models.Resource
-import com.solo.myProject.models.Session
 import com.solo.myProject.models.User
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.security.MessageDigest
 
 
-class Authentication(private val arg: ArgHandler, private val users: List<User>, private val resources: List<Resource>, private val sessions: MutableList<Session>) {
+class Authentication(private val arg: ArgHandler, private val users: List<User>) {
 
     private val user = getUser()
 
@@ -37,7 +35,7 @@ class Authentication(private val arg: ArgHandler, private val users: List<User>,
             log.info("Invalid password " + arg.password + " for user " + arg.login)
             return ExitCodes.InvalidPassword.code
         }
-        log.info("Authentication user "+ arg.login +" was successful")
+        log.info("Authentication user " + arg.login + " was successful")
         return null
     }
 
