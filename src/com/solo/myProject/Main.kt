@@ -8,24 +8,30 @@ import com.solo.myProject.services.Accounting
 import com.solo.myProject.services.Authentication
 import com.solo.myProject.services.Authorization
 import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 import org.flywaydb.core.Flyway
+import java.io.File
 import java.sql.DriverManager
+import java.sql.Statement
 import kotlin.system.exitProcess
 
 
 fun main(args: Array<String>) {
 
-    val conn = DriverManager.getConnection("jdbc:h2:~/db", "Solo", "123")
-    val flyway = Flyway.configure().dataSource("jdbc:h2:~/db", "Solo", "123").locations("filesystem:db\\migration").load()
-    // Start the migration
-    // Start the migration
-    flyway.migrate()
+    val statement: Statement?
+    logger.error("Start Program")
+    if (!File("./db", "aaa.mv.db").exists()) {
+        logger.info("Create database")
+        val flyway = Flyway.configure().dataSource("jdbc:h2:file:./db/aaa", "Solo", "1234").locations("filesystem:db\\migration").load()
+        flyway.migrate()
+    }
 
+    logger.info("Connect database")
+    val conn = DriverManager.getConnection("jdbc:h2:file:./db/aaa", "Solo", "1234")
+    statement = conn.createStatement()
+    logger.info("CreateStatement")
 
-    val log: Logger = LogManager.getLogger()
-    log.error("StartProgramm")
     val argHandler = ArgHandler(args)
+    logArgs(argHandler)
     val authentication = Authentication(argHandler, users, resources, sessions.toMutableList())
     var returnCode = authentication.start()
     if (returnCode == null) {
@@ -37,6 +43,19 @@ fun main(args: Array<String>) {
         returnCode = accounting.start()
     }
     exitProcess(returnCode)
+}
+
+private val logger = LogManager.getLogger()
+private fun logArgs(argHandler: ArgHandler) {
+    logger.error("Entered parameters:")
+    if (argHandler.h != "") logger.info("-h")
+    if (argHandler.login != "") logger.info("Login = ${argHandler.login}")
+    if (argHandler.password != "") logger.info("Pass = ${argHandler.password}")
+    if (argHandler.res != "") logger.info("Res = ${argHandler.res}")
+    if (argHandler.role != "") logger.info("Role = ${argHandler.role}")
+    if (argHandler.ds != "") logger.info("Ds = ${argHandler.ds}")
+    if (argHandler.de != "") logger.info("De = ${argHandler.de}")
+    if (argHandler.vol != "") logger.info("Vol = ${argHandler.vol}")
 }
 
 val users: List<User> = listOf(

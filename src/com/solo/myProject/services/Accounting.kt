@@ -5,19 +5,28 @@ import com.solo.myProject.enums.ExitCodes
 import com.solo.myProject.models.Session
 import com.solo.myProject.models.Resource
 import com.solo.myProject.models.User
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import java.time.LocalDate
 
 class Accounting(private val arg: ArgHandler, private val user: User, var sessions: MutableList<Session>, private val resources: List<Resource>) {
 
     private val res = getRes()
+    private val log: Logger = LogManager.getLogger()
 
     fun start(): Int {
         if (!arg.needAcc())
             return ExitCodes.Success.code
-        if (!arg.checkDate())
+        log.info("Start Accounting")
+        if (!arg.checkDate()) {
+            log.info(arg.de + " or " + arg.ds + " is incorrect date")
             return ExitCodes.IncorrectActivity.code
-        if (!arg.checkVol())
+        }
+        if (!arg.checkVol()) {
+            log.info(arg.vol + " is incorrect volume")
             return ExitCodes.IncorrectActivity.code
+        }
+        log.info("User with login " + arg.login + " used "+ arg.res+ " with role " + arg.role)
         addSession()
         return ExitCodes.Success.code
     }

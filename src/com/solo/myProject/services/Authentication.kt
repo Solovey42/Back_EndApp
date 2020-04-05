@@ -14,22 +14,30 @@ class Authentication(private val arg: ArgHandler, private val users: List<User>,
 
     private val user = getUser()
 
-    val log: Logger = LogManager.getLogger()
+    private val log: Logger = LogManager.getLogger()
     fun start(): Int? {
-        if (arg.checkArg())
+        log.info("Start Authentication")
+        if (arg.checkArg()) {
             return ExitCodes.HelpCode.code
-        if (arg.checkHelp())
+        }
+        if (arg.checkHelp()) {
             return ExitCodes.HelpCode.code
+        }
         if (!arg.needAuth())
             return ExitCodes.Success.code
         if (!arg.validateLogin()) {
-            log.info("Logging in user" + arg.login + "with pass" + arg.password + "error with InvalidLogin")
+            log.info("Login " + arg.login + " invalid")
             return ExitCodes.InvalidLoginFormat.code
         }
-        if (user == null)
+        if (user == null) {
+            log.info("User with login " + arg.login + " does not exist ")
             return ExitCodes.UnknownLogin.code
-        if (!checkLoinPass())
+        }
+        if (!checkLoinPass()) {
+            log.info("Invalid password " + arg.password + " for user " + arg.login)
             return ExitCodes.InvalidPassword.code
+        }
+        log.info("Authentication user "+ arg.login +" was successful")
         return null
     }
 
