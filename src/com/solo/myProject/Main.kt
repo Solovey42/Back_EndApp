@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
     val sessions: MutableList<Session> = mutableListOf()
 
     val argHandler = ArgHandler(args)
-    DataAccessLayer(argHandler, conn, users, resources, sessions).insertTables()
+    DataAccessLayer(argHandler, conn, users, resources).insertTables()
 
     val authentication = Authentication(argHandler, users)
     var returnCode = authentication.start()

@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager
 import java.sql.Connection
 
 
-class DataAccessLayer(private val argHandler: ArgHandler, private val conn: Connection, private val users: MutableList<User>, private val resources: MutableList<Resource>, private var session: MutableList<Session>) {
+class DataAccessLayer(private val argHandler: ArgHandler, private val conn: Connection, private val users: MutableList<User>, private val resources: MutableList<Resource>) {
 
     private val logger = LogManager.getLogger()
 
