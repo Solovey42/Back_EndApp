@@ -1,9 +1,9 @@
 #!/bin/bash
 
 if [[ "$OSTYPE" == "msys" ]]; then
-  params="./lib/log4j-api-2.13.1.jar;./lib/log4j-core-2.13.1.jar"
+  params="./lib/log4j-api-2.13.1.jar;./lib/log4j-core-2.13.1.jar;./lib/h2-1.4.200.jar;./lib/flyway-core-6.3.2.jar"
 else
-  params="./lib/log4j-api-2.13.1.jar:./lib/log4j-core-2.13.1.jar"
+  params="./lib/log4j-api-2.13.1.jar:./lib/log4j-core-2.13.1.jar:./lib/h2-1.4.200.jar:./lib/flyway-core-6.3.2.jar"
 fi
 
 
