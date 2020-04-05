@@ -9,7 +9,8 @@ function test() {
     params=$2
     expected_status=$3
     # shellcheck disable=SC2034
-    output=$(./RUN.sh "$params")
+
+    ./RUN.sh "$params"
     actual_status=$?
 
     if [ $actual_status -eq "$expected_status" ]
@@ -21,7 +22,6 @@ function test() {
     echo -e "\033[31m$test_name failed \033[0m"
     fi
 
-    echo -e "app.jar $params \nexpected: $expected_status \nactual: $actual_status \n"
 }
 
 test "T1.1" "" 1
