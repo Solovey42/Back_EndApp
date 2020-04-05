@@ -16,7 +16,6 @@ class Authentication(private val arg: ArgHandler, private val users: List<User>,
 
     private val log: Logger = LogManager.getLogger()
     fun start(): Int? {
-        log.info("Start Authentication")
         if (arg.checkArg()) {
             return ExitCodes.HelpCode.code
         }
@@ -25,6 +24,7 @@ class Authentication(private val arg: ArgHandler, private val users: List<User>,
         }
         if (!arg.needAuth())
             return ExitCodes.Success.code
+        log.info("Start Authentication")
         if (!arg.validateLogin()) {
             log.info("Login " + arg.login + " invalid")
             return ExitCodes.InvalidLoginFormat.code
