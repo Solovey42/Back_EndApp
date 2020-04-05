@@ -4,3 +4,4 @@ out/
 bin/
 *.log
 aaa.mv.db
+aaa.trace.db
