@@ -4,6 +4,12 @@ enum class Roles {
     READ, WRITE, EXECUTE;
 
     companion object {
-        fun check(role: String) = values().map { it.name }.contains(role)
+        fun check(role: String): Roles? {
+            return if(values().map { it.name }.contains(role))
+                valueOf(role.toUpperCase())
+            else
+                null
+        }
     }
+
 }
