@@ -42,7 +42,7 @@ class DataAccessLayer(private val argHandler: ArgHandler, private val conn: Conn
     }
 
     private fun getRes() {
-        logger.info("CreateStatement for get Res")
+        logger.info("CreateStatement for get Resources")
         val statement = conn.createStatement()
         val resultSet = statement.executeQuery("SELECT * FROM resource")
         while (resultSet.next()) {

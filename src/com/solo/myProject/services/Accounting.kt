@@ -37,6 +37,7 @@ class Accounting(private val arg: ArgHandler, private val user: User, private va
         if (session != null)
             sessions.add(session)
 
+        log.info("CreateStatement for insert Session")
         val resultSet = "INSERT INTO session (user, res, ds, de, vol) Values (?, ?, ?, ?, ?)"
         val statement = conn.prepareStatement(resultSet)
         statement.setString(1, arg.login)
