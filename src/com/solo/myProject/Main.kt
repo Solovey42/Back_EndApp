@@ -45,7 +45,4 @@ fun main(args: Array<String>) {
     logger.info("Connect close")
     conn.close()
     exitProcess(returnCode)
-
 }
-
-
