@@ -11,6 +11,7 @@ class ArgHandler(args: Array<String>) {
     var ds: String = ""
     var de: String = ""
     var vol: String = ""
+    var h: String = ""
 
     init {
         for (i in arr.indices) {
@@ -22,6 +23,7 @@ class ArgHandler(args: Array<String>) {
                 "-ds" -> ds = args[i + 1]
                 "-de" -> de = args[i + 1]
                 "-vol" -> vol = args[i + 1]
+                "-h" -> h = args[i]
             }
         }
     }
@@ -37,13 +39,13 @@ class ArgHandler(args: Array<String>) {
     private fun printHelp() = print(help)
 
     private val help: String =
-            "-h - вызов справки\n" +
-            "-login <str> -pass <str> - аутентификация s\n" +
-            "-login <str> -pass <str> -res <str> -role <str> - авторизация к введенному ресурсу\n" +
-            "-ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - занесение данных об использовании ресурса(только после авторизации"
+            "-h - help\n" +
+            "-login <str> -pass <str> - Authentication s\n" +
+            "-login <str> -pass <str> -res <str> -role <str> - Authorization\n" +
+            "-ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - Accounting\n"
 
     fun checkHelp(): Boolean {
-        if (arr[0] == "-h") {
+        if (h == "-h") {
             printHelp()
             return true
         }
