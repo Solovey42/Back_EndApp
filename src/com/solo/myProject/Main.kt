@@ -17,9 +17,9 @@ fun main(args: Array<String>) {
     val logger = LogManager.getLogger()
 
     logger.error("Start Program")
-    if (!File("./db", "aaa.mv.db").exists()) {
+    if (!File("./db", "aaa.h2.db").exists()) {
         logger.info("Create database")
-        val flyway = Flyway.configure().dataSource("jdbc:h2:file:./db/aaa", "Solo", "1234").locations("filesystem:db\\migration").load()
+        val flyway = Flyway.configure().dataSource("jdbc:h2:file:./db/aaa;MV_STORE=FALSE", "Solo", "1234").locations("filesystem:db\\migration").load()
         flyway.migrate()
     }
     logger.info("Connect database")
