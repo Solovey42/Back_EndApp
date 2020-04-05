@@ -7,12 +7,22 @@ import com.solo.myProject.models.User
 import com.solo.myProject.services.Accounting
 import com.solo.myProject.services.Authentication
 import com.solo.myProject.services.Authorization
-import com.sun.tools.javac.Main
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import org.flywaydb.core.Flyway
+import java.sql.DriverManager
 import kotlin.system.exitProcess
 
+
 fun main(args: Array<String>) {
+
+    val conn = DriverManager.getConnection("jdbc:h2:~/db", "Solo", "123")
+    val flyway = Flyway.configure().dataSource("jdbc:h2:~/db", "Solo", "123").locations("filesystem:db\\migration").load()
+    // Start the migration
+    // Start the migration
+    flyway.migrate()
+
+
     val log: Logger = LogManager.getLogger()
     log.error("StartProgramm")
     val argHandler = ArgHandler(args)
