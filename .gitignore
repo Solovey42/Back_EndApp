@@ -5,3 +5,4 @@ bin/
 *.log
 aaa.h2.db
 aaa.lock.db
+aaa.trace.db
