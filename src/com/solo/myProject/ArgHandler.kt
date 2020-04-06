@@ -1,9 +1,12 @@
 package com.solo.myProject
 
+import org.apache.logging.log4j.LogManager
 import java.time.LocalDate
 
 class ArgHandler(args: Array<String>) {
+    private val logger = LogManager.getLogger()
     private val arr: Array<String> = args
+    private var h: String = ""
     var login: String = ""
     var password: String = ""
     var role: String = ""
@@ -11,7 +14,6 @@ class ArgHandler(args: Array<String>) {
     var ds: String = ""
     var de: String = ""
     var vol: String = ""
-    var h: String = ""
 
     init {
         for (i in arr.indices) {
@@ -25,7 +27,21 @@ class ArgHandler(args: Array<String>) {
                 "-vol" -> vol = args[i + 1]
                 "-h" -> h = args[i]
             }
+
         }
+        logArgs()
+    }
+
+    private fun logArgs() {
+        logger.error("Entered parameters:")
+        if (h != "") logger.info("-h")
+        if (login != "") logger.info("Login = $login")
+        if (password != "") logger.info("Pass = $password")
+        if (res != "") logger.info("Res = $res")
+        if (role != "") logger.info("Role = $role")
+        if (ds != "") logger.info("Ds = $ds")
+        if (de != "") logger.info("De = $de")
+        if (vol != "") logger.info("Vol = $vol")
     }
 
     fun checkArg(): Boolean {
