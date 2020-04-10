@@ -28,6 +28,22 @@ class DataAccessLayer(private val conn: Connection, private val users: MutableLi
         logger.info("CreateStatement close")
     }
 
+    fun getUser(login: String): User {
+        logger.info("Get prepared statement with users")
+        val getUser = conn!!.prepareStatement("SELECT hash, salt FROM users WHERE login = ?")
+        getUser.setString(1, login)
+        logger.info("Get result set with user")
+        val res = getUser.executeQuery()
+        res.next()
+        val salt = res.getString("salt")
+        val hash = res.getString("hash")
+        logger.info("Close result set with user")
+        res.close()
+        logger.info("Close prepared statement with users")
+        getUser.close()
+        return User(login, salt, hash)
+    }
+
     private fun getRes() {
         logger.info("CreateStatement for get Resources")
         val statement = conn.createStatement()
