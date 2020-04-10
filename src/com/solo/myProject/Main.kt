@@ -26,56 +26,37 @@ fun main(args: Array<String>) {
     logger.info("Connect database")
     val conn = DriverManager.getConnection(System.getenv("URL") + ";MV_STORE=FALSE", System.getenv("LOGIN"), System.getenv("PASS"))
 
-
+    val users: MutableList<User> = mutableListOf()
     val resources: MutableList<Resource> = mutableListOf()
     val sessions: MutableList<Session> = mutableListOf()
 
     val argHandler = ArgHandler(args)
+    val dal = DataAccessLayer(conn, users, resources)
 
-    val DAL = DataAccessLayer(conn)
+    if (argHandler.checkArg()) {
+        exitProcess(ExitCodes.HelpCode.code)
+    }
+    if (argHandler.checkHelp()) {
+        exitProcess(ExitCodes.HelpCode.code)
+    }
+    if (!argHandler.needAuth())
+        exitProcess(ExitCodes.Success.code)
 
 
+    logger.info("Start Authentication")
 
-
-        val authentication = Authentication(
-                argHandler.login,
-                argHandler.password,
-                DAL.loginExists(argHandler.login),
-                DAL.getUser(argHandler.login))
-
+    val authentication = Authentication(argHandler.login, argHandler.password, dal)
     var returnCode = authentication.start()
 
+    if (returnCode == null) {
 
-
-    returnCode = if (returnCode == null && argHandler.needAuthorization()) {
-        val authorization = Authorization(
-                argHandler.ds,
-                argHandler.role,
-                argHandler.res,
-                DAL.getUser(argHandler.login),
-                DAL.hasPermission(argHandler.login, argHandler.role, argHandler.res))
-
-        authorization.start()
-    } else
-        ExitCodes.Success.code
-
-    if (returnCode == null && argHandler.needAcc()) {
-        val accounting = Accounting(
-                argHandler.de,
-                argHandler.ds,
-                argHandler.vol,
-                argHandler.login,
-                argHandler.res,
-                argHandler.role,
-                DAL.getUser(argHandler.login),
-                sessions,
-                resources,
-                conn)
+        val authorization = Authorization(argHandler.role, argHandler.res, dal, dal.getUser(argHandler.login), argHandler.ds)
+        returnCode = authorization.start()
+    }
+    if (returnCode == null) {
+        val accounting = Accounting(argHandler, dal.getUser(argHandler.login), sessions, resources, conn)
         returnCode = accounting.start()
     }
-    else
-        returnCode=ExitCodes.Success.code
-
     logger.info("Connect close")
     conn.close()
     exitProcess(returnCode)
