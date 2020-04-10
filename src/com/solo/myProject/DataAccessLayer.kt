@@ -33,7 +33,7 @@ class DataAccessLayer(private val conn: Connection) {
         val getUser = conn.prepareStatement("select* from users where login = ?")
         getUser.setString(1, login)
         logger.info("Get result set with user")
-        var resultSet = getUser.executeQuery()
+        val resultSet = getUser.executeQuery()
         if (resultSet.next())
             isUserExists = true
         logger.info("Close result set with user")
@@ -45,19 +45,19 @@ class DataAccessLayer(private val conn: Connection) {
 
     fun accessToRes(res: String, login: String, role: String): Boolean {
         var isAccessExists = false
-        logger.info("Get prepared statement with user")
-        val getUser = conn.prepareStatement("select* from resource where user = ? and res = ? and role = ?")
-        getUser.setString(1, login)
-        getUser.setString(2, res)
-        getUser.setString(3, role)
-        logger.info("Get result set with user")
-        var resultSet = getUser.executeQuery()
+        logger.info("Get prepared statement with res")
+        val getRes = conn.prepareStatement("select* from resource where user = ? and res = ? and role = ?")
+        getRes.setString(1, login)
+        getRes.setString(2, res)
+        getRes.setString(3, role)
+        logger.info("Get result set with res")
+        val resultSet = getRes.executeQuery()
         if (resultSet.next())
             isAccessExists = true
-        logger.info("Close result set with user")
+        logger.info("Close result set with res")
         resultSet.close()
-        logger.info("Close prepared statement with user")
-        getUser.close()
+        logger.info("Close prepared statement with res")
+        getRes.close()
         return isAccessExists
     }
 
