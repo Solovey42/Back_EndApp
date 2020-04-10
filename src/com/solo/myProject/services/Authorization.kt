@@ -8,40 +8,50 @@ import com.solo.myProject.models.User
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class Authorization(private val arg: ArgHandler, private val user: User, private val resources: List<Resource>) {
+class Authorization(private val ds: String,
+                    private val role: String,
+                    private val res: String,
+                    private val user: User,
+                    private val resources: List<Resource>) {
 
     fun start(): Int? {
-        if (!arg.needAuthorization())
+        if (!needAuthorization())
             return ExitCodes.Success.code
         log.info("Start Authorization")
         return checkResRole()
     }
 
-    fun needAcc(): Boolean = arg.ds != ""//Вот этот метод реализовать через поле этого класса
+    fun needAcc(): Boolean = ds != ""//Вот этот метод реализовать через поле этого класса
 
     private val log: Logger = LogManager.getLogger()
+
     private fun checkResRole(): Int? {
-        if (Roles.check(arg.role) == null) {
-            log.info(arg.role + " is unknown role")
+        if (Roles.check(role) == null) {
+            log.info(role + " is unknown role")
             return ExitCodes.UnknownRole.code
         }
-        if (!arg.checkResName()) {
-            log.info(arg.res + " is unknown resource")
+        if (!checkResName()) {
+            log.info(res + " is unknown resource")
             return ExitCodes.UnknownRole.code
         }
-        val nodes = arg.res.split(".")
+        val nodes = res.split(".")
         for (index in nodes.indices) {
             val currentNode = nodes.subList(0, index + 1).joinToString(".")
-            if (resources.any { it.res == currentNode && it.role == arg.role && it.user == user })
+            if (resources.any { it.res == currentNode && it.role == role && it.user == user })
                 return if (!needAcc()) {
-                    log.info("User with login " + arg.login + " got access to resource " + arg.res + " with role " + arg.role)
+                    log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
                     ExitCodes.Success.code
                 } else {
-                    log.info("User with login " + arg.login + " got access to resource " + arg.res + " with role " + arg.role)
+                    log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
                     return null
                 }
         }
-        log.info("User with login " + arg.login + " does not have access to resource " + arg.res + " with role " + arg.role)
+        log.info("User with login " + user.login + " does not have access to resource " + res + " with role " + role)
         return ExitCodes.NoAccess.code
     }
+
+
+    fun needAuthorization(): Boolean = res != ""
+
+    fun checkResName(): Boolean = res.matches(Regex("[A-Z]+(|.[A-Z]+)+"))
 }
