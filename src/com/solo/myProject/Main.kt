@@ -30,14 +30,28 @@ fun main(args: Array<String>) {
     val sessions: MutableList<Session> = mutableListOf()
 
     val argHandler = ArgHandler(args)
-    DataAccessLayer(conn, users, resources).insertTables()
 
-    val authentication = Authentication(argHandler, users)//Передача arghandler
+    val DAL = DataAccessLayer(conn)
+
+    val authentication = Authentication(
+            argHandler.login,
+            argHandler.password,
+            DAL.loginExists(argHandler.login),
+            DAL.getUser(argHandler.login))
+
     var returnCode = authentication.start()
+
     if (returnCode == null) {
-        val authorization = Authorization(argHandler, authentication.getUser()!!, resources)//И тут передача arghandler
+        val authorization = Authorization(
+                argHandler.ds,
+                argHandler.role,
+                argHandler.res,
+                DAL.getUser(argHandler.login),
+                resources)
+
         returnCode = authorization.start()
     }
+
     if (returnCode == null) {
         val accounting = Accounting(
                 argHandler.de,
@@ -46,12 +60,13 @@ fun main(args: Array<String>) {
                 argHandler.login,
                 argHandler.res,
                 argHandler.role,
-                authentication.getUser()!!,
+                DAL.getUser(argHandler.login),
                 sessions,
                 resources,
                 conn)
         returnCode = accounting.start()
     }
+
     logger.info("Connect close")
     conn.close()
     exitProcess(returnCode)
