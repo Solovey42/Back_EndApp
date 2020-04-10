@@ -6,11 +6,9 @@ import org.apache.logging.log4j.LogManager
 import java.sql.Connection
 
 
-class DataAccessLayer(private val conn: Connection) {
+class DataAccessLayer(private val conn: Connection, private val users: MutableList<User>, private val resources: MutableList<Resource>) {
 
     private val logger = LogManager.getLogger()
-
-
 
     fun getUser(login: String): User {
         logger.info("Get prepared statement with users")
@@ -27,38 +25,39 @@ class DataAccessLayer(private val conn: Connection) {
         getUser.close()
         return User(login, hash, salt)
     }
-
-    fun hasPermission(login: String, role: String, permissionRegex: String): Boolean {
-        logger.info("Get prepared statement with permission")
-        val getPermission = conn.prepareStatement(
-                "SELECT count(*) FROM permissions WHERE login = ? and role = ? and res REGEXP ?")
-        getPermission.setString(1, login)
-        getPermission.setString(2, role)
-        logger.info("Matching resources against '$permissionRegex'")
-        getPermission.setString(3, permissionRegex)
-        logger.info("Get result set with permission")
-        val res = getPermission.executeQuery()
-        res.next()
-        val ans = res.getInt(1) > 0
-        logger.info("Close result set with permission")
-        res.close()
-        logger.info("Close prepared statement with permission")
-        getPermission.close()
-        return ans
-    }
-
-    fun loginExists(login: String): Boolean {
+    fun userExists(login: String): Boolean {
+        var isUserExists = false
         logger.info("Get prepared statement with user")
-        val getUser = conn.prepareStatement("SELECT count(*) FROM users WHERE login = ?")
+        val getUser = conn.prepareStatement("select* from users where login = ?")
         getUser.setString(1, login)
         logger.info("Get result set with user")
-        val res = getUser.executeQuery()
-        res.next()
-        val ans = res.getInt(1) > 0
+        var resultSet = getUser.executeQuery()
+            if (resultSet.next())
+                isUserExists =  true
         logger.info("Close result set with user")
-        res.close()
+        resultSet.close()
         logger.info("Close prepared statement with user")
         getUser.close()
-        return ans
+        return isUserExists
     }
+
+    fun accessToRes(res:String,login: String,role:String):Boolean
+    {
+        var isAccessExists = false
+        logger.info("Get prepared statement with user")
+        val getUser = conn.prepareStatement("select* from resource where user = ? and res = ? and role = ?")
+        getUser.setString(1, login)
+        getUser.setString(2, res)
+        getUser.setString(3, role)
+        logger.info("Get result set with user")
+        var resultSet = getUser.executeQuery()
+        if (resultSet.next())
+            isAccessExists =  true
+        logger.info("Close result set with user")
+        resultSet.close()
+        logger.info("Close prepared statement with user")
+        getUser.close()
+        return isAccessExists
+    }
+
 }
