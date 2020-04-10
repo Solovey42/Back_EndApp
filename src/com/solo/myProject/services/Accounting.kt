@@ -27,8 +27,6 @@ class Accounting(
     private val log: Logger = LogManager.getLogger()
 
     fun start(): Int {
-        if (!needAcc())
-            return ExitCodes.Success.code
         log.info("Start Accounting")
         if (!checkDate()) {
             log.info(de + " or " + ds + " is incorrect date")
@@ -59,9 +57,7 @@ class Accounting(
         return ExitCodes.Success.code
     }
 
-    fun needAcc(): Boolean = ds != ""
-
-    fun checkDate(): Boolean {
+    private fun checkDate(): Boolean {
         return try {
             val timeStart = LocalDate.parse(ds)
             val timeEnd = LocalDate.parse(de)
