@@ -1,12 +1,13 @@
 package com.solo.myProject
 
 import com.solo.myProject.models.Resource
+import com.solo.myProject.models.Session
 import com.solo.myProject.models.User
 import org.apache.logging.log4j.LogManager
 import java.sql.Connection
 
 
-class DataAccessLayer(private val conn: Connection, private val users: MutableList<User>, private val resources: MutableList<Resource>) {
+class DataAccessLayer(private val conn: Connection) {
 
     private val logger = LogManager.getLogger()
 
@@ -25,6 +26,7 @@ class DataAccessLayer(private val conn: Connection, private val users: MutableLi
         getUser.close()
         return User(login, hash, salt)
     }
+
     fun userExists(login: String): Boolean {
         var isUserExists = false
         logger.info("Get prepared statement with user")
@@ -58,6 +60,21 @@ class DataAccessLayer(private val conn: Connection, private val users: MutableLi
         logger.info("Close prepared statement with user")
         getUser.close()
         return isAccessExists
+    }
+
+    fun addSession(session: Session)
+    {
+        logger.info("CreateStatement for insert Session")
+        val resultSet = "INSERT INTO session (user, res, ds, de, vol) Values (?, ?, ?, ?, ?)"
+        val statement = conn.prepareStatement(resultSet)
+        statement.setString(1,session.user.login)
+        statement.setString(2,session.res.toString())
+        statement.setString(3,session.ds.toString())
+        statement.setString(4,session.de.toString())
+        statement.setString(5,session.vol.toString())
+        statement.execute()
+        statement.close()
+        logger.info("CreateStatement close")
     }
 
 }
