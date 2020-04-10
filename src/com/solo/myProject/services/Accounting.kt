@@ -10,47 +10,59 @@ import org.apache.logging.log4j.Logger
 import java.sql.Connection
 import java.time.LocalDate
 
-class Accounting(private val arg: ArgHandler, private val user: User, private var sessions: MutableList<Session>, private val resources: List<Resource>, private val conn: Connection) {
+class Accounting(
+        private val needAcc: Boolean,
+        private val checkDate: Boolean,
+        private val checkVol: Boolean,
+        private val de: String,
+        private val ds: String,
+        private val vol: String,
+        private val login: String,
+        private val argRes: String,
+        private val role: String,
+        private val user: User,
+        private var sessions: MutableList<Session>,
+        private val resources: List<Resource>,
+        private val conn: Connection
+) {
 
     private val res = getRes()
     private val log: Logger = LogManager.getLogger()
 
     fun start(): Int {
-        if (!arg.needAcc())
+        if (!needAcc)
             return ExitCodes.Success.code
         log.info("Start Accounting")
-        if (!arg.checkDate()) {
-            log.info(arg.de + " or " + arg.ds + " is incorrect date")
+        if (!checkDate) {
+            log.info(de + " or " + ds + " is incorrect date")
             return ExitCodes.IncorrectActivity.code
         }
-        if (!arg.checkVol()) {
-            log.info(arg.vol + " is incorrect volume")
+        if (!checkVol) {
+            log.info(vol + " is incorrect volume")
             return ExitCodes.IncorrectActivity.code
         }
-        log.info("User with login " + arg.login + " used " + arg.res + " with role " + arg.role)
-        addSession()
-        return ExitCodes.Success.code
-    }
+        log.info("User with login " + login + " used " + argRes + " with role " + role)
 
-    private fun addSession() {
-        val session = if (res != null) Session(user, res, LocalDate.parse(arg.ds), LocalDate.parse(arg.ds), arg.vol.toInt()) else null
+        val session = if (res != null) Session(user, res, LocalDate.parse(ds), LocalDate.parse(ds), vol.toInt()) else null
         if (session != null)
             sessions.add(session)
 
         log.info("CreateStatement for insert Session")
         val resultSet = "INSERT INTO session (user, res, ds, de, vol) Values (?, ?, ?, ?, ?)"
         val statement = conn.prepareStatement(resultSet)
-        statement.setString(1, arg.login)
-        statement.setString(2, arg.res)
-        statement.setString(3, arg.ds)
-        statement.setString(4, arg.de)
-        statement.setString(5, arg.vol)
+        statement.setString(1, login)
+        statement.setString(2, argRes)
+        statement.setString(3, ds)
+        statement.setString(4, de)
+        statement.setString(5, vol)
         statement.execute()
         statement.close()
         log.info("CreateStatement close")
+
+        return ExitCodes.Success.code
     }
 
     private fun getRes(): Resource? {
-        return resources[resources.indexOf(resources.find { it.res == arg.res })]
+        return resources[resources.indexOf(resources.find { it.res == argRes })]
     }
 }
