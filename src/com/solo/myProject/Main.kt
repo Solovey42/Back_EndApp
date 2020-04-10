@@ -46,11 +46,25 @@ fun main(args: Array<String>) {
 
     if (returnCode == null) {
 
-        val authorization = Authorization(argHandler.role, argHandler.res, dal, dal.getUser(argHandler.login), argHandler.ds)
+        val authorization = Authorization(argHandler.role,
+                argHandler.res,
+                dal,
+                dal.getUser(argHandler.login),
+                argHandler.ds)
         returnCode = authorization.start()
     }
     if (returnCode == null) {
-        val accounting = Accounting(argHandler, dal.getUser(argHandler.login),dal,argHandler.res)
+        val accounting = Accounting(argHandler.needAcc(),
+                argHandler.checkDate(),
+                argHandler.checkVol(),
+                argHandler.ds,
+                argHandler.de,
+                argHandler.vol,
+                argHandler.login,
+                argHandler.role,
+                argHandler.res,
+                dal.getUser(argHandler.login),
+                dal)
         returnCode = accounting.start()
     }
     logger.info("Connect close")
