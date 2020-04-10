@@ -27,7 +27,6 @@ class ArgHandler(args: Array<String>) {
                 "-vol" -> vol = args[i + 1]
                 "-h" -> h = args[i]
             }
-
         }
         logArgs()
     }
@@ -56,9 +55,9 @@ class ArgHandler(args: Array<String>) {
 
     private val help: String =
             "-h - help\n" +
-            "-login <str> -pass <str> - Authentication s\n" +
-            "-login <str> -pass <str> -res <str> -role <str> - Authorization\n" +
-            "-ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - Accounting\n"
+                    "-login <str> -pass <str> - Authentication s\n" +
+                    "-login <str> -pass <str> -res <str> -role <str> - Authorization\n" +
+                    "-ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - Accounting\n"
 
     fun checkHelp(): Boolean {
         if (h == "-h") {
