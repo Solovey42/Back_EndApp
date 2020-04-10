@@ -1,5 +1,4 @@
 package com.solo.myProject
-
 import org.apache.logging.log4j.LogManager
 import java.time.LocalDate
 
