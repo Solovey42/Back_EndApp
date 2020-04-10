@@ -21,11 +21,11 @@ class Authorization(private val role: String,
             return ExitCodes.Success.code
         log.info("Start Authorization")
         if (Roles.check(role) == null) {
-            log.info(role + " is unknown role")
+            log.info("$role is unknown role")
             return ExitCodes.UnknownRole.code
         }
         if (!checkResName()) {
-            log.info(res + " is unknown resource")
+            log.info("$res is unknown resource")
             return ExitCodes.UnknownRole.code
         }
         val nodes = res.split(".")
@@ -33,14 +33,14 @@ class Authorization(private val role: String,
             val currentNode = nodes.subList(0, index + 1).joinToString(".")
             if (dal.accessToRes(currentNode, user.login, role))
                 return if (!needAcc()) {
-                    log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
+                    log.info("User with login ${user.login} got access to resource $res with role $role")
                     ExitCodes.Success.code
                 } else {
-                    log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
+                    log.info("User with login ${user.login} got access to resource $res with role $role")
                     return null
                 }
         }
-        log.info("User with login " + user.login + " does not have access to resource " + res + " with role " + role)
+        log.info("User with login ${user.login} does not have access to resource $res with role $role")
         return ExitCodes.NoAccess.code
     }
 

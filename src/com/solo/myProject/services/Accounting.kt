@@ -30,14 +30,14 @@ class Accounting(private val needAcc: Boolean,
             return ExitCodes.Success.code
         log.info("Start Accounting")
         if (!checkDate) {
-            log.info(de + " or " + ds + " is incorrect date")
+            log.info("$de or $ds is incorrect date")
             return ExitCodes.IncorrectActivity.code
         }
         if (!checkVol) {
-            log.info(vol + " is incorrect volume")
+            log.info("$vol is incorrect volume")
             return ExitCodes.IncorrectActivity.code
         }
-        log.info("User with login " + login + " used " + res + " with role " + role)
+        log.info("User with login $login used $res with role $role")
         addSession()
         return ExitCodes.Success.code
     }

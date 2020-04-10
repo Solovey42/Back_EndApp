@@ -18,18 +18,18 @@ class Authentication(private val login: String,
     fun start(): Int? {
 
         if (!validateLogin()) {
-            log.info("Login " + login + " invalid")
+            log.info("Login $login invalid")
             return ExitCodes.InvalidLoginFormat.code
         }
         if (!dal.userExists(login)) {
-            log.info("User with login " + login + " does not exist ")
+            log.info("User with login $login does not exist ")
             return ExitCodes.UnknownLogin.code
         }
         if (!checkLoinPass()) {
-            log.info("Invalid password " + password + " for user " + login)
+            log.info("Invalid password $password for user $login")
             return ExitCodes.InvalidPassword.code
         }
-        log.info("Authentication user " + login + " was successful")
+        log.info("Authentication user $login was successful")
         return null
     }
 
