@@ -26,12 +26,8 @@ fun main(args: Array<String>) {
     logger.info("Connect database")
     val conn = DriverManager.getConnection(System.getenv("URL") + ";MV_STORE=FALSE", System.getenv("LOGIN"), System.getenv("PASS"))
 
-    val users: MutableList<User> = mutableListOf()
-    val resources: MutableList<Resource> = mutableListOf()
-    val sessions: MutableList<Session> = mutableListOf()
-
     val argHandler = ArgHandler(args)
-    val dal = DataAccessLayer(conn, users, resources)
+    val dal = DataAccessLayer(conn)
 
     if (argHandler.checkArg()) {
         exitProcess(ExitCodes.HelpCode.code)
@@ -54,7 +50,7 @@ fun main(args: Array<String>) {
         returnCode = authorization.start()
     }
     if (returnCode == null) {
-        val accounting = Accounting(argHandler, dal.getUser(argHandler.login), sessions, resources, conn)
+        val accounting = Accounting(argHandler, dal.getUser(argHandler.login),dal,argHandler.res)
         returnCode = accounting.start()
     }
     logger.info("Connect close")
