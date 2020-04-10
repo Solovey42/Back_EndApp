@@ -11,40 +11,35 @@ import java.security.MessageDigest
 
 class Authentication(private val login: String,
                      private val password: String,
-                     private val userExist: Boolean,
-                     private val user: User?) {
+                     private val dal: DataAccessLayer
+                     ) {
 
 
     private val log: Logger = LogManager.getLogger()
-
     fun start(): Int? {
-        log.info("Start Authentication")
+
         if (!validateLogin()) {
             log.info("Login " + login + " invalid")
             return ExitCodes.InvalidLoginFormat.code
         }
-        if (!userExist) {
-            log.info("User with login $login does not exist ")
+        if (!dal.userExists(login)) {
+            log.info("User with login " + login + " does not exist ")
             return ExitCodes.UnknownLogin.code
         }
         if (!checkLoinPass()) {
-            log.info("Invalid password " + password + " for user " + user!!.login)
+            log.info("Invalid password " + password + " for user " + login)
             return ExitCodes.InvalidPassword.code
         }
         log.info("Authentication user " + login + " was successful")
         return null
     }
 
-    private fun validateLogin(): Boolean = login.matches(Regex("[a-z]{1,10}"))
+    fun validateLogin(): Boolean = login.matches(Regex("[a-z]{1,10}"))
 
-    private fun checkLoinPass(): Boolean = user!!.hash == generateHash(password, user.salt)
+    private fun checkLoinPass(): Boolean = dal.getUser(login).hash == generateHash(password, dal.getUser(login).salt)
 
     private fun generateHash(plaintext: String, salt: String) =
             MessageDigest.getInstance("SHA-256")
                     .digest((plaintext + salt).toByteArray())
                     .fold("", { str, it -> str + "%02x".format(it) })
-
-
-
 }
-
