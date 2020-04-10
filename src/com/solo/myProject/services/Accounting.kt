@@ -3,13 +3,10 @@ package com.solo.myProject.services
 import com.solo.myProject.DataAccessLayer
 import com.solo.myProject.enums.ExitCodes
 import com.solo.myProject.models.Session
-import com.solo.myProject.models.Resource
 import com.solo.myProject.models.User
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import java.sql.Connection
 import java.time.LocalDate
-import javax.management.monitor.StringMonitor
 
 class Accounting(private val needAcc: Boolean,
                  private val checkDate: Boolean,

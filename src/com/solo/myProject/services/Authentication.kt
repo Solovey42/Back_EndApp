@@ -1,9 +1,7 @@
 package com.solo.myProject.services
 
-import com.solo.myProject.ArgHandler
 import com.solo.myProject.DataAccessLayer
 import com.solo.myProject.enums.ExitCodes
-import com.solo.myProject.models.User
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.security.MessageDigest

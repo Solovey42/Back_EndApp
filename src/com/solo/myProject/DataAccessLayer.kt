@@ -1,11 +1,9 @@
 package com.solo.myProject
 
-import com.solo.myProject.models.Resource
 import com.solo.myProject.models.Session
 import com.solo.myProject.models.User
 import org.apache.logging.log4j.LogManager
 import java.sql.Connection
-
 
 class DataAccessLayer(private val conn: Connection) {
 
