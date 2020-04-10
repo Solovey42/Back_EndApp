@@ -1,6 +1,7 @@
 package com.solo.myProject.services
 
 import com.solo.myProject.ArgHandler
+import com.solo.myProject.DataAccessLayer
 import com.solo.myProject.enums.ExitCodes
 import com.solo.myProject.models.Session
 import com.solo.myProject.models.Resource
@@ -10,9 +11,9 @@ import org.apache.logging.log4j.Logger
 import java.sql.Connection
 import java.time.LocalDate
 
-class Accounting(private val arg: ArgHandler, private val user: User, private var sessions: MutableList<Session>, private val resources: List<Resource>, private val conn: Connection) {
+class Accounting(private val arg: ArgHandler, private val user: User, private val dal: DataAccessLayer,private val res:String) {
 
-    private val res = getRes()
+
     private val log: Logger = LogManager.getLogger()
 
     fun start(): Int {
@@ -33,26 +34,15 @@ class Accounting(private val arg: ArgHandler, private val user: User, private va
     }
 
     private fun addSession() {
-        val session = if (res != null) Session(user, res, LocalDate.parse(arg.ds), LocalDate.parse(arg.ds), arg.vol.toInt()) else null
-        if (session != null)
-            sessions.add(session)
+        val session = Session(user, res, LocalDate.parse(arg.ds), LocalDate.parse(arg.ds), arg.vol.toInt())
+        dal.addSession(session)
 
-        log.info("CreateStatement for insert Session")
-        val resultSet = "INSERT INTO session (user, res, ds, de, vol) Values (?, ?, ?, ?, ?)"
-        val statement = conn.prepareStatement(resultSet)
-        statement.setString(1, arg.login)
-        statement.setString(2, arg.res)
-        statement.setString(3, arg.ds)
-        statement.setString(4, arg.de)
-        statement.setString(5, arg.vol)
-        statement.execute()
-        statement.close()
-        log.info("CreateStatement close")
+
     }
 
-    private fun getRes(): Resource? {
-        return resources[resources.indexOf(resources.find { it.res == arg.res })]
-    }
+//    private fun getRes(): Resource? {
+//        return resources[resources.indexOf(resources.find { it.res == arg.res })]
+//    }
 
 
 }
