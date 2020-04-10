@@ -76,23 +76,4 @@ class ArgHandler(args: Array<String>) {
 
     fun checkResName(): Boolean = res.matches(Regex("[A-Z]+(|.[A-Z]+)+"))
 
-    fun needAcc(): Boolean = ds != ""
-
-    fun checkDate(): Boolean {
-        return try {
-            val timeStart = LocalDate.parse(ds)
-            val timeEnd = LocalDate.parse(de)
-            timeStart < timeEnd
-        } catch (e: Exception) {
-            false
-        }
-    }
-
-    fun checkVol(): Boolean {
-        return try {
-            vol.toInt() > 0
-        } catch (e: Exception) {
-            false
-        }
-    }
 }

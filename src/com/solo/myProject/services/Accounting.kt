@@ -11,9 +11,6 @@ import java.sql.Connection
 import java.time.LocalDate
 
 class Accounting(
-        private val needAcc: Boolean,
-        private val checkDate: Boolean,
-        private val checkVol: Boolean,
         private val de: String,
         private val ds: String,
         private val vol: String,
@@ -30,14 +27,14 @@ class Accounting(
     private val log: Logger = LogManager.getLogger()
 
     fun start(): Int {
-        if (!needAcc)
+        if (!needAcc())
             return ExitCodes.Success.code
         log.info("Start Accounting")
-        if (!checkDate) {
+        if (!checkDate()) {
             log.info(de + " or " + ds + " is incorrect date")
             return ExitCodes.IncorrectActivity.code
         }
-        if (!checkVol) {
+        if (!checkVol()) {
             log.info(vol + " is incorrect volume")
             return ExitCodes.IncorrectActivity.code
         }
@@ -60,6 +57,26 @@ class Accounting(
         log.info("CreateStatement close")
 
         return ExitCodes.Success.code
+    }
+
+    fun needAcc(): Boolean = ds != ""
+
+    fun checkDate(): Boolean {
+        return try {
+            val timeStart = LocalDate.parse(ds)
+            val timeEnd = LocalDate.parse(de)
+            timeStart < timeEnd
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun checkVol(): Boolean {
+        return try {
+            vol.toInt() > 0
+        } catch (e: Exception) {
+            false
+        }
     }
 
     private fun getRes(): Resource? {
