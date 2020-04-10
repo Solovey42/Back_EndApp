@@ -26,7 +26,6 @@ class ArgHandler(args: Array<String>) {
                 "-vol" -> vol = args[i + 1]
                 "-h" -> h = args[i]
             }
-
         }
         logArgs()
     }
@@ -55,9 +54,9 @@ class ArgHandler(args: Array<String>) {
 
     private val help: String =
             "-h - help\n" +
-            "-login <str> -pass <str> - Authentication s\n" +
-            "-login <str> -pass <str> -res <str> -role <str> - Authorization\n" +
-            "-ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - Accounting\n"
+                    "-login <str> -pass <str> - Authentication s\n" +
+                    "-login <str> -pass <str> -res <str> -role <str> - Authorization\n" +
+                    "-ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - Accounting\n"
 
     fun checkHelp(): Boolean {
         if (h == "-h") {
@@ -75,23 +74,4 @@ class ArgHandler(args: Array<String>) {
 
     fun checkResName(): Boolean = res.matches(Regex("[A-Z]+(|.[A-Z]+)+"))
 
-    fun needAcc(): Boolean = ds != ""
-
-    fun checkDate(): Boolean {
-        return try {
-            val timeStart = LocalDate.parse(ds)
-            val timeEnd = LocalDate.parse(de)
-            timeStart < timeEnd
-        } catch (e: Exception) {
-            false
-        }
-    }
-
-    fun checkVol(): Boolean {
-        return try {
-            vol.toInt() > 0
-        } catch (e: Exception) {
-            false
-        }
-    }
 }

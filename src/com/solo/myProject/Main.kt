@@ -19,11 +19,11 @@ fun main(args: Array<String>) {
     logger.error("Start Program")
     if (!File("./db", "aaa.h2.db").exists()) {
         logger.info("Create database")
-        val flyway = Flyway.configure().dataSource(System.getenv("URL")+";MV_STORE=FALSE",  System.getenv("LOGIN"), System.getenv("PASS")).locations("filesystem:db").load()
+        val flyway = Flyway.configure().dataSource(System.getenv("URL") + ";MV_STORE=FALSE", System.getenv("LOGIN"), System.getenv("PASS")).locations("filesystem:db").load()
         flyway.migrate()
     }
     logger.info("Connect database")
-    val conn = DriverManager.getConnection(System.getenv("URL")+";MV_STORE=FALSE", System.getenv("LOGIN"), System.getenv("PASS"))
+    val conn = DriverManager.getConnection(System.getenv("URL") + ";MV_STORE=FALSE", System.getenv("LOGIN"), System.getenv("PASS"))
 
     val users: MutableList<User> = mutableListOf()
     val resources: MutableList<Resource> = mutableListOf()
@@ -32,14 +32,24 @@ fun main(args: Array<String>) {
     val argHandler = ArgHandler(args)
     DataAccessLayer(conn, users, resources).insertTables()
 
-    val authentication = Authentication(argHandler, users)
+    val authentication = Authentication(argHandler, users)//Передача arghandler
     var returnCode = authentication.start()
     if (returnCode == null) {
-        val authorization = Authorization(argHandler, authentication.getUser()!!, resources)
+        val authorization = Authorization(argHandler, authentication.getUser()!!, resources)//И тут передача arghandler
         returnCode = authorization.start()
     }
     if (returnCode == null) {
-        val accounting = Accounting(argHandler, authentication.getUser()!!, sessions, resources, conn)
+        val accounting = Accounting(
+                argHandler.de,
+                argHandler.ds,
+                argHandler.vol,
+                argHandler.login,
+                argHandler.res,
+                argHandler.role,
+                authentication.getUser()!!,
+                sessions,
+                resources,
+                conn)
         returnCode = accounting.start()
     }
     logger.info("Connect close")

@@ -17,6 +17,8 @@ class Authorization(private val arg: ArgHandler, private val user: User, private
         return checkResRole()
     }
 
+    fun needAcc(): Boolean = arg.ds != ""//Вот этот метод реализовать через поле этого класса
+
     private val log: Logger = LogManager.getLogger()
     private fun checkResRole(): Int? {
         if (Roles.check(arg.role) == null) {
@@ -31,7 +33,7 @@ class Authorization(private val arg: ArgHandler, private val user: User, private
         for (index in nodes.indices) {
             val currentNode = nodes.subList(0, index + 1).joinToString(".")
             if (resources.any { it.res == currentNode && it.role == arg.role && it.user == user })
-                return if (!arg.needAcc()) {
+                return if (!needAcc()) {
                     log.info("User with login " + arg.login + " got access to resource " + arg.res + " with role " + arg.role)
                     ExitCodes.Success.code
                 } else {
