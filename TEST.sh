@@ -46,7 +46,7 @@ test "T3.10" "-login admin -pass admin -role WRITE -res A.A"  6
 test "T4.1" "-login vasya -pass 123 -role READ -res A -ds 2020-01-01 -de 2020-02-01 -vol 20"  0
 test "T4.2" "-login vasya -pass 123 -role READ -res A -ds 2020-01-01 -de 2020-15-01 -vol 20"  7
 test "T4.3" "-login vasya -pass 123 -role READ -res A -ds 2020-01-01 -de asd -vol 20"  7
-test "T4.3" "-login vasya -pass 123 -role READ -res A -ds 2020-01-01 -de 2020-02-01 -vol asd"  7
+test "T4.4" "-login vasya -pass 123 -role READ -res A -ds 2020-01-01 -de 2020-02-01 -vol asd"  7
 test "T4.5" "-login vasya -pass 123 -role READ -res A -ds 2020-01-01 -de 2020-02-01 -vol -1"  7
 
 echo "Tests passed: $tests_passed"
