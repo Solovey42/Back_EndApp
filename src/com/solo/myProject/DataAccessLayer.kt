@@ -6,27 +6,11 @@ import org.apache.logging.log4j.LogManager
 import java.sql.Connection
 
 
-class DataAccessLayer(private val conn: Connection, private val users: MutableList<User>, private val resources: MutableList<Resource>) {
+class DataAccessLayer(private val conn: Connection) {
 
     private val logger = LogManager.getLogger()
 
-    fun insertTables() {
-        getUsers()
-        getRes()
-    }
 
-
-    private fun getUsers() {
-        logger.info("CreateStatement for get Users")
-        val statement = conn.createStatement()
-        val resultSet = statement.executeQuery("SELECT * FROM users")
-        while (resultSet.next()) {
-            users.add(User(resultSet.getString("login"), resultSet.getString("hash"), resultSet.getString("salt")))
-        }
-        statement.close()
-        resultSet.close()
-        logger.info("CreateStatement close")
-    }
 
     fun getUser(login: String): User {
         logger.info("Get prepared statement with users")
@@ -41,19 +25,26 @@ class DataAccessLayer(private val conn: Connection, private val users: MutableLi
         res.close()
         logger.info("Close prepared statement with users")
         getUser.close()
-        return User(login, salt, hash)
+        return User(login, hash, salt)
     }
 
-    private fun getRes() {
-        logger.info("CreateStatement for get Resources")
-        val statement = conn.createStatement()
-        val resultSet = statement.executeQuery("SELECT * FROM resource")
-        while (resultSet.next()) {
-            resources.add(Resource(resultSet.getString("res"), resultSet.getString("role"), users.find { it.login == resultSet.getString("user") }!!))
-        }
-        statement.close()
-        resultSet.close()
-        logger.info("CreateStatement close")
+    fun hasPermission(login: String, role: String, permissionRegex: String): Boolean {
+        logger.info("Get prepared statement with permission")
+        val getPermission = conn.prepareStatement(
+                "SELECT count(*) FROM permissions WHERE login = ? and role = ? and res REGEXP ?")
+        getPermission.setString(1, login)
+        getPermission.setString(2, role)
+        logger.info("Matching resources against '$permissionRegex'")
+        getPermission.setString(3, permissionRegex)
+        logger.info("Get result set with permission")
+        val res = getPermission.executeQuery()
+        res.next()
+        val ans = res.getInt(1) > 0
+        logger.info("Close result set with permission")
+        res.close()
+        logger.info("Close prepared statement with permission")
+        getPermission.close()
+        return ans
     }
 
     fun loginExists(login: String): Boolean {

@@ -27,6 +27,9 @@ class Accounting(
     private val log: Logger = LogManager.getLogger()
 
     fun start(): Int {
+
+        if(!needAcc())
+            return ExitCodes.Success.code
         log.info("Start Accounting")
         if (!checkDate()) {
             log.info(de + " or " + ds + " is incorrect date")
@@ -78,4 +81,6 @@ class Accounting(
     private fun getRes(): Resource? {
         return resources[resources.indexOf(resources.find { it.res == argRes })]
     }
+
+    fun needAcc(): Boolean = ds != ""
 }

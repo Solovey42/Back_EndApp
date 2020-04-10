@@ -74,4 +74,6 @@ class ArgHandler(args: Array<String>) {
 
     fun checkResName(): Boolean = res.matches(Regex("[A-Z]+(|.[A-Z]+)+"))
 
+    fun needAcc(): Boolean = ds != ""
+
 }

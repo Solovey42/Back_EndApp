@@ -28,7 +28,7 @@ class Authentication(private val login: String,
             return ExitCodes.UnknownLogin.code
         }
         if (!checkLoinPass()) {
-            log.info("Invalid password " + password + " for user " + login)
+            log.info("Invalid password " + password + " for user " + user!!.login)
             return ExitCodes.InvalidPassword.code
         }
         log.info("Authentication user " + login + " was successful")

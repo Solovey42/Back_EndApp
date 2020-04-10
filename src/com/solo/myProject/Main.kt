@@ -1,5 +1,6 @@
 package com.solo.myProject
 
+import com.solo.myProject.enums.ExitCodes
 import com.solo.myProject.models.Resource
 import com.solo.myProject.models.Session
 import com.solo.myProject.models.User
@@ -25,7 +26,7 @@ fun main(args: Array<String>) {
     logger.info("Connect database")
     val conn = DriverManager.getConnection(System.getenv("URL") + ";MV_STORE=FALSE", System.getenv("LOGIN"), System.getenv("PASS"))
 
-    val users: MutableList<User> = mutableListOf()
+
     val resources: MutableList<Resource> = mutableListOf()
     val sessions: MutableList<Session> = mutableListOf()
 
@@ -33,26 +34,32 @@ fun main(args: Array<String>) {
 
     val DAL = DataAccessLayer(conn)
 
-    val authentication = Authentication(
-            argHandler.login,
-            argHandler.password,
-            DAL.loginExists(argHandler.login),
-            DAL.getUser(argHandler.login))
+
+
+
+        val authentication = Authentication(
+                argHandler.login,
+                argHandler.password,
+                DAL.loginExists(argHandler.login),
+                DAL.getUser(argHandler.login))
 
     var returnCode = authentication.start()
 
-    if (returnCode == null) {
+
+
+    returnCode = if (returnCode == null && argHandler.needAuthorization()) {
         val authorization = Authorization(
                 argHandler.ds,
                 argHandler.role,
                 argHandler.res,
                 DAL.getUser(argHandler.login),
-                resources)
+                DAL.hasPermission(argHandler.login, argHandler.role, argHandler.res))
 
-        returnCode = authorization.start()
-    }
+        authorization.start()
+    } else
+        ExitCodes.Success.code
 
-    if (returnCode == null) {
+    if (returnCode == null && argHandler.needAcc()) {
         val accounting = Accounting(
                 argHandler.de,
                 argHandler.ds,
@@ -66,6 +73,8 @@ fun main(args: Array<String>) {
                 conn)
         returnCode = accounting.start()
     }
+    else
+        returnCode=ExitCodes.Success.code
 
     logger.info("Connect close")
     conn.close()

@@ -12,7 +12,7 @@ class Authorization(private val ds: String,
                     private val role: String,
                     private val res: String,
                     private val user: User,
-                    private val resources: List<Resource>) {
+                    private val hasPermission:Boolean ) {
 
     fun start(): Int? {
         if (!needAuthorization())
@@ -34,22 +34,33 @@ class Authorization(private val ds: String,
             log.info(res + " is unknown resource")
             return ExitCodes.UnknownRole.code
         }
-        val nodes = res.split(".")
-        for (index in nodes.indices) {
-            val currentNode = nodes.subList(0, index + 1).joinToString(".")
-            if (resources.any { it.res == currentNode && it.role == role && it.user == user })
-                return if (!needAcc()) {
-                    log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
-                    ExitCodes.Success.code
-                } else {
-                    log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
-                    return null
-                }
-        }
-        log.info("User with login " + user.login + " does not have access to resource " + res + " with role " + role)
-        return ExitCodes.NoAccess.code
-    }
+//        val nodes = res.split(".")
+//        for (index in nodes.indices) {
+//            val currentNode = nodes.subList(0, index + 1).joinToString(".")
+//            if (resources.any { it.res == currentNode && it.role == role && it.user == user })
+//                return if (!needAcc()) {
+//                    log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
+//                    ExitCodes.Success.code
+//                } else {
+//                    log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
+//                    return null
+//                }
+//        }
 
+        return if(!hasPermission) {
+            log.info("User with login " + user.login + " does not have access to resource " + res + " with role " + role)
+            ExitCodes.NoAccess.code
+        }
+        else
+            return if (!needAcc()) {
+                log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
+                ExitCodes.Success.code
+            } else {
+                log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
+                return null
+            }
+
+    }
 
     fun needAuthorization(): Boolean = res != ""
 
