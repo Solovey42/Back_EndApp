@@ -1,4 +1,5 @@
 package com.solo.myProject
+
 import org.apache.logging.log4j.LogManager
 import java.time.LocalDate
 
@@ -55,9 +56,9 @@ class ArgHandler(args: Array<String>) {
 
     private val help: String =
             "-h - help\n" +
-            "-login <str> -pass <str> - Authentication s\n" +
-            "-login <str> -pass <str> -res <str> -role <str> - Authorization\n" +
-            "-ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - Accounting\n"
+                    "-login <str> -pass <str> - Authentication s\n" +
+                    "-login <str> -pass <str> -res <str> -role <str> - Authorization\n" +
+                    "-ds <YYYY-MM-DD> -de <YYYY-MM-DD> -vol <int> - Accounting\n"
 
     fun checkHelp(): Boolean {
         if (h == "-h") {
@@ -68,8 +69,6 @@ class ArgHandler(args: Array<String>) {
     }
 
     fun needAuth(): Boolean = login != "" && password != ""
-
-
 
 
     fun checkResName(): Boolean = res.matches(Regex("[A-Z]+(|.[A-Z]+)+"))

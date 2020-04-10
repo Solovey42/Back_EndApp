@@ -34,8 +34,8 @@ class DataAccessLayer(private val conn: Connection) {
         getUser.setString(1, login)
         logger.info("Get result set with user")
         var resultSet = getUser.executeQuery()
-            if (resultSet.next())
-                isUserExists =  true
+        if (resultSet.next())
+            isUserExists = true
         logger.info("Close result set with user")
         resultSet.close()
         logger.info("Close prepared statement with user")
@@ -43,8 +43,7 @@ class DataAccessLayer(private val conn: Connection) {
         return isUserExists
     }
 
-    fun accessToRes(res:String,login: String,role:String):Boolean
-    {
+    fun accessToRes(res: String, login: String, role: String): Boolean {
         var isAccessExists = false
         logger.info("Get prepared statement with user")
         val getUser = conn.prepareStatement("select* from resource where user = ? and res = ? and role = ?")
@@ -54,7 +53,7 @@ class DataAccessLayer(private val conn: Connection) {
         logger.info("Get result set with user")
         var resultSet = getUser.executeQuery()
         if (resultSet.next())
-            isAccessExists =  true
+            isAccessExists = true
         logger.info("Close result set with user")
         resultSet.close()
         logger.info("Close prepared statement with user")
@@ -62,16 +61,15 @@ class DataAccessLayer(private val conn: Connection) {
         return isAccessExists
     }
 
-    fun addSession(session: Session)
-    {
+    fun addSession(session: Session) {
         logger.info("CreateStatement for insert Session")
         val resultSet = "INSERT INTO session (user, res, ds, de, vol) Values (?, ?, ?, ?, ?)"
         val statement = conn.prepareStatement(resultSet)
-        statement.setString(1,session.user.login)
-        statement.setString(2,session.res.toString())
-        statement.setString(3,session.ds.toString())
-        statement.setString(4,session.de.toString())
-        statement.setString(5,session.vol.toString())
+        statement.setString(1, session.user.login)
+        statement.setString(2, session.res.toString())
+        statement.setString(3, session.ds.toString())
+        statement.setString(4, session.de.toString())
+        statement.setString(5, session.vol.toString())
         statement.execute()
         statement.close()
         logger.info("CreateStatement close")

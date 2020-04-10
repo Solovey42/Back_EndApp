@@ -9,11 +9,11 @@ import com.solo.myProject.models.User
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class Authorization(private val role:String,
-                    private val res:String,
+class Authorization(private val role: String,
+                    private val res: String,
                     private val dal: DataAccessLayer,
                     private val user: User,
-                    private val ds:String) {
+                    private val ds: String) {
 
     fun start(): Int? {
 
@@ -31,7 +31,7 @@ class Authorization(private val role:String,
         val nodes = res.split(".")
         for (index in nodes.indices) {
             val currentNode = nodes.subList(0, index + 1).joinToString(".")
-            if (dal.accessToRes(currentNode,user.login,role))
+            if (dal.accessToRes(currentNode, user.login, role))
                 return if (!needAcc()) {
                     log.info("User with login " + user.login + " got access to resource " + res + " with role " + role)
                     ExitCodes.Success.code

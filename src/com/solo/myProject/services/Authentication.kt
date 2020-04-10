@@ -12,8 +12,7 @@ import java.security.MessageDigest
 class Authentication(private val login: String,
                      private val password: String,
                      private val dal: DataAccessLayer
-                     ) {
-
+) {
 
     private val log: Logger = LogManager.getLogger()
     fun start(): Int? {
